@@ -3,10 +3,10 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#151a36">
+  <meta name="theme-color" content="#211f1b">
   <meta name="description" content="認識 IP 和 MAC 的分工，以及 ARP 如何在本地網路找到對應的網卡地址。">
   <title>ARP 是什麼｜ARP 小小網路探險隊</title>
-  <link rel="stylesheet" href="styles.css?v=4">
+  <link rel="stylesheet" href="styles.css?v=5">
   
 </head>
 <body>
@@ -17,14 +17,29 @@
     <a class="nav-cta" href="lab.html">下一章 <span aria-hidden="true">↗</span></a>
   </header>
   <main id="main">
-    <section class="section-wrap section-pad" id="what">
-      <div class="section-heading"><div><div class="eyebrow"><span class="eyebrow-number">01</span> THE INTRODUCTION</div><h2>先認識兩種「地址」</h2></div><p>想像你要把信送到同學手上<br>會需要知道兩件事。</p></div>
-      <div class="address-grid">
+    <section class="section-wrap section-pad course-lesson-page" id="what">
+      <div class="course-workspace">
+        <div class="course-canvas">
+          <div class="section-heading"><div><div class="eyebrow"><span class="eyebrow-number">01. 基礎　/　THE INTRODUCTION</span></div><h2>先認識兩種「地址」</h2></div><p>想像你要把信送到同學手上<br>會需要知道兩件事。</p></div>
+          <div class="concept-stats" aria-label="本課主題"><span><small>網路層</small><b>IP 地址</b></span><span><small>網路卡</small><b>MAC 門牌</b></span><span><small>課程</small><b>約 2 分鐘</b></span></div>
+          <div class="address-grid">
         <article class="address-card ip-card"><div class="card-top"><span class="pill pill-blue">網路層 · IP</span><span class="card-doodle">✳</span></div><div class="address-symbol">#<span>IP</span></div><h3>你想找哪個地方？</h3><p>像通訊錄上的地址，幫忙指出網路中的目標，例如 <code>192.168.1.25</code>。</p><div class="address-example"><span>目的地地址</span><strong>192.168.1.25</strong></div></article>
         <article class="address-card mac-card"><div class="card-top"><span class="pill pill-orange">網路卡 · MAC</span><span class="card-doodle">✦</span></div><div class="address-symbol symbol-mac">▦<span>MAC</span></div><h3>要把資料交給誰？</h3><p>網路卡的辨識碼，像大樓裡真正的門牌，例如 <code>AA:BB:CC:11:22:25</code>。</p><div class="address-example"><span>網卡門牌</span><strong>AA:BB:CC:11:22:25</strong></div></article>
         <div class="arp-bridge"><span>ARP</span><b>幫你把 IP 問成 MAC</b><small>就像查地址對照表</small></div>
       </div>
-      <div class="note-strip"><span class="note-icon">i</span><p><b>小提醒</b> ARP 通常用在同一個區域網路內，幫忙查詢 IPv4 位址對應的 MAC 位址。要傳到遠方網路時，電腦通常會先找「路由器」的 MAC。</p></div>
+            <div class="note-strip"><span class="note-icon">i</span><p><b>小提醒</b> ARP 通常用在同一個區域網路內，幫忙查詢 IPv4 位址對應的 MAC 位址。要傳到遠方網路時，電腦通常會先找「路由器」的 MAC。</p></div>
+          <div class="course-timeline" aria-label="課程進度"><div class="timeline-heading"><b>探險路線</b><span>第 1 步，共 4 步</span></div><ol><li class="current"><i>1</i><span>地址</span></li><li><i>2</i><span>ARP 查詢</span></li><li><i>3</i><span>假冒</span></li><li><i>4</i><span>防護</span></li></ol></div>
+        </div>
+        <aside class="lesson-sidebar" aria-label="課程說明">
+          <div class="sidebar-step"><b>第 1 / 4 步</b><span class="tip-pill">入門</span></div>
+          <h3>IP 找地方，<br>MAC 找網卡</h3>
+          <p>IP 像通訊錄的地址，告訴電腦「想找哪裡」；MAC 則是網路卡自己的辨識碼，像「要交給哪一張網卡」。</p>
+          <div class="sidebar-tip"><span class="sidebar-tip-icon">☼</span><div><b>生活小比喻</b><span>IP 是要去的社區，MAC 是社區裡真正的門牌。</span></div></div>
+          <div class="sidebar-change"><b>這一課先記住</b><span><i>＋</i> IP 和 MAC 是兩種不同的地址</span><span><i>＋</i> ARP 幫忙查兩者的對照</span></div>
+          <div class="sidebar-actions"><a class="button button-ghost" href="index.html">← 返回</a><a class="button button-mint" href="lab.html">下一步：看 ARP 封包 →</a></div>
+          <div class="sidebar-hint">下一站：觀察電腦如何在區域網路裡發問</div>
+        </aside>
+      </div>
     </section>
     
     <nav class="page-switch section-wrap" aria-label="章節切換">

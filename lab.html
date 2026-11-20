@@ -3,10 +3,10 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#151a36">
+  <meta name="theme-color" content="#211f1b">
   <meta name="description" content="逐步播放 ARP Request、Reply 與資料封包，切換正常查詢和假冒情境。">
   <title>封包實驗室｜ARP 小小網路探險隊</title>
-  <link rel="stylesheet" href="styles.css?v=4">
+  <link rel="stylesheet" href="styles.css?v=5">
   <script src="script.js" defer></script>
 </head>
 <body>
@@ -32,11 +32,13 @@
             <div class="packet-bubble" id="packet-bubble" aria-hidden="true">⌁</div>
             <div class="network-cloud">LOCAL<br>LAN</div>
           </div>
-          <div class="lab-bottom">
-            <div class="step-copy" aria-live="polite"><span class="step-counter" id="step-counter">STEP 0 / 4</span><h3 id="step-title">準備出發了嗎？</h3><p id="step-description">小安要傳訊息給小晴，先看看自己的 ARP 對照表有沒有小晴的 MAC。</p></div>
+          <aside class="lab-lesson-panel">
+            <div class="lesson-panel-top"><b id="step-counter">STEP 0 / 4</b><span class="tip-pill">互動實驗</span></div>
+            <div class="step-copy" aria-live="polite"><h3 id="step-title">準備出發了嗎？</h3><p id="step-description">小安要傳訊息給小晴，先看看自己的 ARP 對照表有沒有小晴的 MAC。</p></div>
             <div class="packet-inspector"><div class="inspector-title"><span>📦</span> 現在這個封包在說……</div><div class="inspector-fields"><div><small>種類</small><b id="packet-kind">尚未送出</b></div><div><small>詢問 / 回覆</small><b id="packet-sender">—</b></div><div><small>目標 IP</small><b id="packet-target">192.168.1.25</b></div></div><p id="packet-aside">等等看看封包裡有哪些資訊。</p></div>
-          </div>
-          <div class="lab-controls"><button class="button button-ghost" id="reset-button">⟲ 重來</button><div class="progress-track" aria-label="模擬進度"><span id="progress-fill"></span></div><button class="button button-ghost" id="play-button">▶ 自動播放</button><button class="button button-mint" id="next-button">送出下一個封包 <span aria-hidden="true">↗</span></button></div>
+            <div class="lab-learning"><b>你會看到</b><span>✓ ARP Request 怎麼廣播詢問</span><span>○ ARP Reply 如何回答</span><span>○ 假冒回覆怎麼讓封包走錯</span></div>
+            <div class="lab-controls"><div class="progress-track" aria-label="模擬進度"><span id="progress-fill"></span></div><div class="lab-control-buttons"><button class="button button-ghost" id="reset-button">⟲ 重來</button><button class="button button-ghost" id="play-button">▶ 自動播放</button></div><button class="button button-mint" id="next-button">送出下一個封包 <span aria-hidden="true">↗</span></button></div>
+          </aside>
         </div>
         <p class="lab-footnote"><span>⌁</span> 這是瀏覽器裡的教學動畫，所有 IP 和 MAC 都是虛構的，不會對真實網路送出封包。</p>
       </div>
