@@ -5,30 +5,24 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#151a36">
   <meta name="description" content="用生活比喻和互動封包動畫，輕鬆認識 ARP 協定與 ARP spoofing。">
-  <title>ARP 小小網路探險隊｜封包去哪裡？</title>
-  <link rel="stylesheet" href="styles.css?v=3">
-  <script src="script.js" defer></script>
+  <title>封包去哪裡？｜ARP 小小網路探險隊</title>
+  <link rel="stylesheet" href="styles.css?v=4">
+  
 </head>
 <body>
   <a class="skip-link" href="#main">跳到主要內容</a>
   <header class="topbar">
-    <a class="brand" href="#top" aria-label="ARP 小小網路探險隊首頁">
-      <span class="brand-mark" aria-hidden="true">⌁</span>
-      <span>封包探險隊 <small>NETWORK CLUB</small></span>
-    </a>
-    <nav aria-label="主要導覽">
-      <a href="#what">ARP 是什麼</a><a href="#lab">封包實驗室</a><a href="#spoof">假冒解謎</a><a href="#quiz">快問快答</a>
-    </nav>
-    <a class="nav-cta" href="#lab">開始探險 <span aria-hidden="true">↘</span></a>
+    <a class="brand" href="index.html" aria-label="ARP 小小網路探險隊首頁"><span class="brand-mark" aria-hidden="true">⌁</span><span>封包探險隊 <small>NETWORK CLUB</small></span></a>
+    <nav aria-label="主要導覽"><a href="arp.html">ARP 是什麼</a><a href="lab.html">封包實驗室</a><a href="spoof.html">假冒解謎</a><a href="quiz.html">快問快答</a></nav>
+    <a class="nav-cta" href="arp.html">開始探險 <span aria-hidden="true">↗</span></a>
   </header>
-
   <main id="main">
     <section class="hero section-wrap" id="top">
       <div class="hero-copy">
         <div class="eyebrow"><span class="live-dot"></span> 網路基礎任務 01 <span class="eyebrow-line"></span> 約 5 分鐘</div>
         <h1>封包知道 IP，<br>卻不認得<span class="highlight">門牌</span>？</h1>
         <p class="hero-lede">來認識 ARP 這位「網路問路小幫手」，再一起找出有人冒名回答時，封包會走錯去哪裡。</p>
-        <div class="hero-actions"><a class="button button-mint" href="#what">開始探險 <span aria-hidden="true">↘</span></a><span class="hero-note">零基礎也能懂，真的！</span></div>
+        <div class="hero-actions"><a class="button button-mint" href="arp.html">開始探險 <span aria-hidden="true">↘</span></a><span class="hero-note">零基礎也能懂，真的！</span></div>
         <div class="hero-stats"><div><strong>IP</strong><span>想找誰？</span></div><b aria-hidden="true">＋</b><div><strong>MAC</strong><span>怎麼找到？</span></div><b aria-hidden="true">＝</b><div><strong>ARP</strong><span>問路小幫手</span></div></div>
       </div>
       <div class="hero-art" aria-label="兩台電腦透過網路交換封包的插畫">
@@ -45,65 +39,19 @@
         </div>
         <div class="art-sticker">HI!<small>封包出發</small></div>
       </div>
-      <div class="hero-bottom"><span>往下滑，探索封包旅程</span><span class="scroll-mark" aria-hidden="true">⌄</span><span>01 / 04</span></div>
+      <div class="hero-bottom"><span>選一個章節開始探險</span><span class="scroll-mark" aria-hidden="true">⌄</span><span>首頁</span></div>
     </section>
-
-    <section class="section-wrap section-pad" id="what">
-      <div class="section-heading"><div><div class="eyebrow"><span class="eyebrow-number">01</span> THE INTRODUCTION</div><h2>先認識兩種「地址」</h2></div><p>想像你要把信送到同學手上<br>會需要知道兩件事。</p></div>
-      <div class="address-grid">
-        <article class="address-card ip-card"><div class="card-top"><span class="pill pill-blue">網路層 · IP</span><span class="card-doodle">✳</span></div><div class="address-symbol">#<span>IP</span></div><h3>你想找哪個地方？</h3><p>像通訊錄上的地址，幫忙指出網路中的目標，例如 <code>192.168.1.25</code>。</p><div class="address-example"><span>目的地地址</span><strong>192.168.1.25</strong></div></article>
-        <article class="address-card mac-card"><div class="card-top"><span class="pill pill-orange">網路卡 · MAC</span><span class="card-doodle">✦</span></div><div class="address-symbol symbol-mac">▦<span>MAC</span></div><h3>要把資料交給誰？</h3><p>網路卡的辨識碼，像大樓裡真正的門牌，例如 <code>AA:BB:CC:11:22:25</code>。</p><div class="address-example"><span>網卡門牌</span><strong>AA:BB:CC:11:22:25</strong></div></article>
-        <div class="arp-bridge"><span>ARP</span><b>幫你把 IP 問成 MAC</b><small>就像查地址對照表</small></div>
-      </div>
-      <div class="note-strip"><span class="note-icon">i</span><p><b>小提醒</b> ARP 通常用在同一個區域網路內，幫忙查詢 IPv4 位址對應的 MAC 位址。要傳到遠方網路時，電腦通常會先找「路由器」的 MAC。</p></div>
-    </section>
-
-    <section class="lab-section" id="lab">
-      <div class="section-wrap section-pad">
-        <div class="section-heading light-heading"><div><div class="eyebrow"><span class="eyebrow-number">02</span> PACKET LAB</div><h2>封包實驗室</h2></div><p>按下按鈕，一步步看看 ARP<br>怎麼幫小安找到小晴。</p></div>
-        <div class="lab-toolbar"><div class="scenario-switch" role="group" aria-label="選擇封包情境"><button class="scenario-button is-active" data-scenario="normal" aria-pressed="true">☀ 正常查詢</button><button class="scenario-button" data-scenario="spoof" aria-pressed="false">⚠ 有人假冒</button></div><div class="lab-status"><span class="status-led"></span><span id="lab-status-text">模擬準備就緒</span><span class="demo-tag">教學模擬</span></div></div>
-        <div class="lab-frame">
-          <div class="topology" id="topology" aria-label="封包傳遞拓樸圖">
-            <div class="topology-label">本地網路 <span>192.168.1.0 / 24</span></div>
-            <svg class="topology-lines" viewBox="0 0 900 310" preserveAspectRatio="none" aria-hidden="true"><path d="M145 142 L420 142 L744 142" class="wire"/><path d="M420 142 L420 254" class="wire"/><path d="M145 142 L420 142 L744 142" class="wire wire-active" id="flow-line"/></svg>
-            <div class="device device-you"><div class="device-avatar avatar-you">安</div><b>小安的電腦</b><span>192.168.1.12</span><code>MAC · AA:12</code></div>
-            <div class="device device-switch"><div class="switch-glyph"><i></i><i></i><i></i><i></i></div><b>網路交換器</b><span>本地網路中心</span></div>
-            <div class="device device-target"><div class="device-avatar avatar-target">晴</div><b>小晴的電腦</b><span>192.168.1.25</span><code>MAC · BB:25</code></div>
-            <div class="device device-rogue" id="rogue-device"><div class="device-avatar avatar-rogue">?</div><b>陌生裝置</b><span>冒充小晴的 IP</span><code>MAC · CC:99</code></div>
-            <div class="packet-bubble" id="packet-bubble" aria-hidden="true">⌁</div>
-            <div class="network-cloud">LOCAL<br>LAN</div>
-          </div>
-          <div class="lab-bottom">
-            <div class="step-copy" aria-live="polite"><span class="step-counter" id="step-counter">STEP 0 / 4</span><h3 id="step-title">準備出發了嗎？</h3><p id="step-description">小安要傳訊息給小晴，先看看自己的 ARP 對照表有沒有小晴的 MAC。</p></div>
-            <div class="packet-inspector"><div class="inspector-title"><span>📦</span> 現在這個封包在說……</div><div class="inspector-fields"><div><small>種類</small><b id="packet-kind">尚未送出</b></div><div><small>詢問 / 回覆</small><b id="packet-sender">—</b></div><div><small>目標 IP</small><b id="packet-target">192.168.1.25</b></div></div><p id="packet-aside">等等看看封包裡有哪些資訊。</p></div>
-          </div>
-          <div class="lab-controls"><button class="button button-ghost" id="reset-button">⟲ 重來</button><div class="progress-track" aria-label="模擬進度"><span id="progress-fill"></span></div><button class="button button-ghost" id="play-button">▶ 自動播放</button><button class="button button-mint" id="next-button">送出下一個封包 <span aria-hidden="true">↗</span></button></div>
-        </div>
-        <p class="lab-footnote"><span>⌁</span> 這是瀏覽器裡的教學動畫，所有 IP 和 MAC 都是虛構的，不會對真實網路送出封包。</p>
+    <section class="section-wrap section-pad lessons-section" aria-labelledby="lessons-title">
+      <div class="section-heading"><div><div class="eyebrow"><span class="eyebrow-number">YOUR ROUTE</span> 四個小章節</div><h2 id="lessons-title">挑一站，開始你的封包探險</h2></div><p>每一頁只專心解開一個問題<br>用上方導覽也能隨時換頁。</p></div>
+      <div class="lesson-grid">
+        <a class="lesson-card lesson-blue" href="arp.html"><span class="lesson-number">01</span><span class="lesson-icon">#</span><span class="lesson-copy"><b>先認識 ARP</b><small>IP 和 MAC 有什麼不同？</small></span><span class="lesson-open">前往章節 ↗</span></a>
+        <a class="lesson-card lesson-green" href="lab.html"><span class="lesson-number">02</span><span class="lesson-icon">⌁</span><span class="lesson-copy"><b>封包實驗室</b><small>親手播放 ARP 封包旅程</small></span><span class="lesson-open">前往章節 ↗</span></a>
+        <a class="lesson-card lesson-orange" href="spoof.html"><span class="lesson-number">03</span><span class="lesson-icon">?</span><span class="lesson-copy"><b>破解假冒謎題</b><small>看懂 ARP spoofing 的影響</small></span><span class="lesson-open">前往章節 ↗</span></a>
+        <a class="lesson-card lesson-purple" href="quiz.html"><span class="lesson-number">04</span><span class="lesson-icon">✦</span><span class="lesson-copy"><b>快問快答</b><small>三題確認你都學會了</small></span><span class="lesson-open">前往章節 ↗</span></a>
       </div>
     </section>
-
-    <section class="section-wrap section-pad" id="spoof">
-      <div class="section-heading"><div><div class="eyebrow"><span class="eyebrow-number">03</span> THE MYSTERY</div><h2>等等，這位同學是誰？</h2></div><p>ARP 本身不會先檢查回覆的人<br>是不是本人，可能有人趁機冒充。</p></div>
-      <div class="mystery-grid">
-        <div class="mystery-visual"><div class="mystery-card"><div class="speech speech-real">「我是 192.168.1.25，<br>我的 MAC 是 BB:25！」<span>小晴</span></div><div class="speech speech-fake">「我也是 192.168.1.25，<br>MAC 是 CC:99 喔！」<span>陌生裝置</span></div><div class="mini-computer">安</div><div class="mini-gate">交換器</div><div class="mystery-arrow arrow-one">→</div><div class="mystery-arrow arrow-two">↗</div><div class="question-mark">?</div></div><div class="mystery-stamp">誰說的<br>才是真的？</div></div>
-        <div class="mystery-copy"><span class="pill pill-orange">ARP SPOOFING · ARP 欺騙</span><h3>有人謊報 IP 與 MAC 的配對</h3><p>冒充者送出假的 ARP 訊息，讓小安把「小晴的 IP」記成「陌生裝置的 MAC」。這種錯誤記錄叫做 <b>ARP 快取污染</b>。</p><div class="result-box"><div class="result-icon">↳</div><div><b>接下來可能發生什麼？</b><span>資料可能先跑到冒充者那裡，被攔下或造成連線中斷。若其他安全條件也不足，才可能進一步被讀取或竄改。</span></div></div><div class="remember-chip">🧠 記住：被騙的是「IP 對 MAC 的對照表」</div></div>
-      </div>
-      <div class="defense-panel"><div class="defense-icon">🛡</div><div><span class="eyebrow">DEFENSE SQUAD</span><h3>網路管理員有防護招式</h3><p>交換器可以用 <b>Dynamic ARP Inspection（DAI）</b> 檢查 ARP 訊息中的 IP/MAC 配對，和已知的裝置資料比對，擋下不合理的回覆。連線時也要留意奇怪的安全警告，使用 HTTPS 網站。</p></div><div class="shield-mark">OK!</div></div>
-    </section>
-
-    <section class="quiz-section" id="quiz">
-      <div class="section-wrap section-pad">
-        <div class="section-heading"><div><div class="eyebrow"><span class="eyebrow-number">04</span> QUICK CHECK</div><h2>小小探險家，換你出題！</h2></div><p>三題就好，答錯也沒關係<br>點選答案就會看到解析。</p></div>
-        <div class="quiz-card" id="quiz-card"><div class="quiz-progress"><span id="quiz-count">問題 1 / 3</span><div class="quiz-dots"><i class="current"></i><i></i><i></i></div></div><h3 id="quiz-question">ARP 主要幫忙查出哪兩種地址的對照？</h3><div class="quiz-options" id="quiz-options"></div><div class="quiz-feedback" id="quiz-feedback" aria-live="polite" hidden></div><button class="button button-mint quiz-next" id="quiz-next" hidden>下一題 <span aria-hidden="true">↗</span></button></div>
-      </div>
-    </section>
-
-    <section class="source-section section-wrap">
-      <div><div class="eyebrow"><span class="eyebrow-number">✦</span> KEEP EXPLORING</div><h2>想知道更多？</h2><p>這裡是我們整理內容時參考的資料。</p></div>
-      <div class="source-links"><a href="https://datatracker.ietf.org/doc/html/rfc826" target="_blank" rel="noreferrer"><span>RFC 826</span><b>ARP 原始技術文件 ↗</b></a><a href="https://www.cisco.com/c/en/us/td/docs/switches/lan/catalyst9600/software/release/17-13/configuration_guide/sec/b_1713_sec_9600_cg/configuring_dynamic_arp_inspection.html" target="_blank" rel="noreferrer"><span>CISCO GUIDE</span><b>Dynamic ARP Inspection ↗</b></a></div>
-    </section>
+    
   </main>
-  <footer class="footer"><a class="brand" href="#top"><span class="brand-mark">⌁</span><span>封包探險隊 <small>NETWORK CLUB</small></span></a><span>用好奇心打開網路世界。</span><a href="#top">回到最上面 ↑</a></footer>
+  <footer class="footer"><a class="brand" href="index.html"><span class="brand-mark" aria-hidden="true">⌁</span><span>封包探險隊 <small>NETWORK CLUB</small></span></a><span>用好奇心打開網路世界。</span><a href="index.html">回到首頁 ↑</a></footer>
 </body>
 </html>

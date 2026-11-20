@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#151a36">
+  <meta name="description" content="認識 IP 和 MAC 的分工，以及 ARP 如何在本地網路找到對應的網卡地址。">
+  <title>ARP 是什麼｜ARP 小小網路探險隊</title>
+  <link rel="stylesheet" href="styles.css?v=4">
+  
+</head>
+<body>
+  <a class="skip-link" href="#main">跳到主要內容</a>
+  <header class="topbar">
+    <a class="brand" href="index.html" aria-label="ARP 小小網路探險隊首頁"><span class="brand-mark" aria-hidden="true">⌁</span><span>封包探險隊 <small>NETWORK CLUB</small></span></a>
+    <nav aria-label="主要導覽"><a href="arp.html" aria-current="page">ARP 是什麼</a><a href="lab.html">封包實驗室</a><a href="spoof.html">假冒解謎</a><a href="quiz.html">快問快答</a></nav>
+    <a class="nav-cta" href="lab.html">下一章 <span aria-hidden="true">↗</span></a>
+  </header>
+  <main id="main">
+    <section class="section-wrap section-pad" id="what">
+      <div class="section-heading"><div><div class="eyebrow"><span class="eyebrow-number">01</span> THE INTRODUCTION</div><h2>先認識兩種「地址」</h2></div><p>想像你要把信送到同學手上<br>會需要知道兩件事。</p></div>
+      <div class="address-grid">
+        <article class="address-card ip-card"><div class="card-top"><span class="pill pill-blue">網路層 · IP</span><span class="card-doodle">✳</span></div><div class="address-symbol">#<span>IP</span></div><h3>你想找哪個地方？</h3><p>像通訊錄上的地址，幫忙指出網路中的目標，例如 <code>192.168.1.25</code>。</p><div class="address-example"><span>目的地地址</span><strong>192.168.1.25</strong></div></article>
+        <article class="address-card mac-card"><div class="card-top"><span class="pill pill-orange">網路卡 · MAC</span><span class="card-doodle">✦</span></div><div class="address-symbol symbol-mac">▦<span>MAC</span></div><h3>要把資料交給誰？</h3><p>網路卡的辨識碼，像大樓裡真正的門牌，例如 <code>AA:BB:CC:11:22:25</code>。</p><div class="address-example"><span>網卡門牌</span><strong>AA:BB:CC:11:22:25</strong></div></article>
+        <div class="arp-bridge"><span>ARP</span><b>幫你把 IP 問成 MAC</b><small>就像查地址對照表</small></div>
+      </div>
+      <div class="note-strip"><span class="note-icon">i</span><p><b>小提醒</b> ARP 通常用在同一個區域網路內，幫忙查詢 IPv4 位址對應的 MAC 位址。要傳到遠方網路時，電腦通常會先找「路由器」的 MAC。</p></div>
+    </section>
+    
+    <nav class="page-switch section-wrap" aria-label="章節切換">
+      <a class="page-switch-link" href="index.html"><small>上一頁</small><b>← 首頁</b></a>
+      <span class="page-switch-count">01 / 04</span>
+      <a class="page-switch-link page-switch-next" href="lab.html"><small>下一頁</small><b>封包實驗室 →</b></a>
+    </nav>
+  </main>
+  <footer class="footer"><a class="brand" href="index.html"><span class="brand-mark" aria-hidden="true">⌁</span><span>封包探險隊 <small>NETWORK CLUB</small></span></a><span>用好奇心打開網路世界。</span><a href="index.html">回到首頁 ↑</a></footer>
+</body>
+</html>

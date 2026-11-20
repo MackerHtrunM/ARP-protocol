@@ -19,9 +19,13 @@ python3 serve.py
 
 ## 專案內容
 
-- `index.html`：教學內容與互動介面
+- `index.html`：探險首頁與四個章節入口
+- `arp.html`：ARP、IP 和 MAC 入門
+- `lab.html`：封包逐步播放與正常 / 假冒情境切換
+- `spoof.html`：ARP spoofing 解說與防護方式
+- `quiz.html`：三題互動小測驗
 - `styles.css`：響應式視覺設計
-- `script.js`：封包動畫、情境切換與小測驗
+- `script.js`：封包動畫與小測驗互動
 - `serve.py`：Python 標準函式庫本機靜態伺服器
 - `docs/設計簡報.md`：網站定位、頁面結構、視覺方向與內容依據
 

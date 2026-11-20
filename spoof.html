@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#151a36">
+  <meta name="description" content="看看錯誤的 IP/MAC 配對如何讓區域網路中的資料走錯方向。">
+  <title>ARP 欺騙解謎｜ARP 小小網路探險隊</title>
+  <link rel="stylesheet" href="styles.css?v=4">
+  
+</head>
+<body>
+  <a class="skip-link" href="#main">跳到主要內容</a>
+  <header class="topbar">
+    <a class="brand" href="index.html" aria-label="ARP 小小網路探險隊首頁"><span class="brand-mark" aria-hidden="true">⌁</span><span>封包探險隊 <small>NETWORK CLUB</small></span></a>
+    <nav aria-label="主要導覽"><a href="arp.html">ARP 是什麼</a><a href="lab.html">封包實驗室</a><a href="spoof.html" aria-current="page">假冒解謎</a><a href="quiz.html">快問快答</a></nav>
+    <a class="nav-cta" href="quiz.html">下一章 <span aria-hidden="true">↗</span></a>
+  </header>
+  <main id="main">
+    <section class="section-wrap section-pad" id="spoof">
+      <div class="section-heading"><div><div class="eyebrow"><span class="eyebrow-number">03</span> THE MYSTERY</div><h2>等等，這位同學是誰？</h2></div><p>ARP 本身不會先檢查回覆的人<br>是不是本人，可能有人趁機冒充。</p></div>
+      <div class="mystery-grid">
+        <div class="mystery-visual"><div class="mystery-card"><div class="speech speech-real">「我是 192.168.1.25，<br>我的 MAC 是 BB:25！」<span>小晴</span></div><div class="speech speech-fake">「我也是 192.168.1.25，<br>MAC 是 CC:99 喔！」<span>陌生裝置</span></div><div class="mini-computer">安</div><div class="mini-gate">交換器</div><div class="mystery-arrow arrow-one">→</div><div class="mystery-arrow arrow-two">↗</div><div class="question-mark">?</div></div><div class="mystery-stamp">誰說的<br>才是真的？</div></div>
+        <div class="mystery-copy"><span class="pill pill-orange">ARP SPOOFING · ARP 欺騙</span><h3>有人謊報 IP 與 MAC 的配對</h3><p>冒充者送出假的 ARP 訊息，讓小安把「小晴的 IP」記成「陌生裝置的 MAC」。這種錯誤記錄叫做 <b>ARP 快取污染</b>。</p><div class="result-box"><div class="result-icon">↳</div><div><b>接下來可能發生什麼？</b><span>資料可能先跑到冒充者那裡，被攔下或造成連線中斷。若其他安全條件也不足，才可能進一步被讀取或竄改。</span></div></div><div class="remember-chip">🧠 記住：被騙的是「IP 對 MAC 的對照表」</div></div>
+      </div>
+      <div class="defense-panel"><div class="defense-icon">🛡</div><div><span class="eyebrow">DEFENSE SQUAD</span><h3>網路管理員有防護招式</h3><p>交換器可以用 <b>Dynamic ARP Inspection（DAI）</b> 檢查 ARP 訊息中的 IP/MAC 配對，和已知的裝置資料比對，擋下不合理的回覆。連線時也要留意奇怪的安全警告，使用 HTTPS 網站。</p></div><div class="shield-mark">OK!</div></div>
+    </section>
+    
+    <nav class="page-switch section-wrap" aria-label="章節切換">
+      <a class="page-switch-link" href="lab.html"><small>上一頁</small><b>← 封包實驗室</b></a>
+      <span class="page-switch-count">03 / 04</span>
+      <a class="page-switch-link page-switch-next" href="quiz.html"><small>下一頁</small><b>快問快答 →</b></a>
+    </nav>
+  </main>
+  <footer class="footer"><a class="brand" href="index.html"><span class="brand-mark" aria-hidden="true">⌁</span><span>封包探險隊 <small>NETWORK CLUB</small></span></a><span>用好奇心打開網路世界。</span><a href="index.html">回到首頁 ↑</a></footer>
+</body>
+</html>

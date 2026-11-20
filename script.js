@@ -1,3 +1,4 @@
+if (document.querySelector("#topology")) {
 const scenarios = {
   normal: [
     { title: "小安先找找看", description: "小安想傳訊息給小晴。自己的 ARP 對照表還沒有小晴的 MAC，所以要先問問。", kind: "ARP Request · 詢問", sender: "小安 → 大家", target: "192.168.1.25", aside: "「誰有 192.168.1.25？請告訴我你的 MAC！」這個問題會廣播給本地網路。", from: "you", to: "switch", icon: "?", fake: false },
@@ -135,6 +136,10 @@ document.querySelectorAll(".scenario-button").forEach((button) => {
   });
 });
 
+resetLab();
+}
+
+if (document.querySelector("#quiz-card")) {
 const quiz = [
   { question: "ARP 主要幫忙查出哪兩種地址的對照？", choices: ["網址和密碼", "IPv4 位址和 MAC 位址", "姓名和電話"], answer: 1, explanation: "答對！ARP 幫忙找到 IPv4 位址在本地網路中對應的 MAC 位址。" },
   { question: "ARP Request 通常怎麼問同一個本地網路？", choices: ["只傳給全世界一台電腦", "廣播詢問大家", "寄到搜尋引擎"], answer: 1, explanation: "沒錯！ARP Request 會在本地網路廣播，目標裝置再回覆。" },
@@ -196,5 +201,5 @@ quizNext.addEventListener("click", () => {
   renderQuiz();
 });
 
-resetLab();
 renderQuiz();
+}

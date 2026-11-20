@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#151a36">
+  <meta name="description" content="逐步播放 ARP Request、Reply 與資料封包，切換正常查詢和假冒情境。">
+  <title>封包實驗室｜ARP 小小網路探險隊</title>
+  <link rel="stylesheet" href="styles.css?v=4">
+  <script src="script.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">跳到主要內容</a>
+  <header class="topbar">
+    <a class="brand" href="index.html" aria-label="ARP 小小網路探險隊首頁"><span class="brand-mark" aria-hidden="true">⌁</span><span>封包探險隊 <small>NETWORK CLUB</small></span></a>
+    <nav aria-label="主要導覽"><a href="arp.html">ARP 是什麼</a><a href="lab.html" aria-current="page">封包實驗室</a><a href="spoof.html">假冒解謎</a><a href="quiz.html">快問快答</a></nav>
+    <a class="nav-cta" href="spoof.html">下一章 <span aria-hidden="true">↗</span></a>
+  </header>
+  <main id="main">
+    <section class="lab-section" id="lab">
+      <div class="section-wrap section-pad">
+        <div class="section-heading light-heading"><div><div class="eyebrow"><span class="eyebrow-number">02</span> PACKET LAB</div><h2>封包實驗室</h2></div><p>按下按鈕，一步步看看 ARP<br>怎麼幫小安找到小晴。</p></div>
+        <div class="lab-toolbar"><div class="scenario-switch" role="group" aria-label="選擇封包情境"><button class="scenario-button is-active" data-scenario="normal" aria-pressed="true">☀ 正常查詢</button><button class="scenario-button" data-scenario="spoof" aria-pressed="false">⚠ 有人假冒</button></div><div class="lab-status"><span class="status-led"></span><span id="lab-status-text">模擬準備就緒</span><span class="demo-tag">教學模擬</span></div></div>
+        <div class="lab-frame">
+          <div class="topology" id="topology" aria-label="封包傳遞拓樸圖">
+            <div class="topology-label">本地網路 <span>192.168.1.0 / 24</span></div>
+            <svg class="topology-lines" viewBox="0 0 900 310" preserveAspectRatio="none" aria-hidden="true"><path d="M145 142 L420 142 L744 142" class="wire"/><path d="M420 142 L420 254" class="wire"/><path d="M145 142 L420 142 L744 142" class="wire wire-active" id="flow-line"/></svg>
+            <div class="device device-you"><div class="device-avatar avatar-you">安</div><b>小安的電腦</b><span>192.168.1.12</span><code>MAC · AA:12</code></div>
+            <div class="device device-switch"><div class="switch-glyph"><i></i><i></i><i></i><i></i></div><b>網路交換器</b><span>本地網路中心</span></div>
+            <div class="device device-target"><div class="device-avatar avatar-target">晴</div><b>小晴的電腦</b><span>192.168.1.25</span><code>MAC · BB:25</code></div>
+            <div class="device device-rogue" id="rogue-device"><div class="device-avatar avatar-rogue">?</div><b>陌生裝置</b><span>冒充小晴的 IP</span><code>MAC · CC:99</code></div>
+            <div class="packet-bubble" id="packet-bubble" aria-hidden="true">⌁</div>
+            <div class="network-cloud">LOCAL<br>LAN</div>
+          </div>
+          <div class="lab-bottom">
+            <div class="step-copy" aria-live="polite"><span class="step-counter" id="step-counter">STEP 0 / 4</span><h3 id="step-title">準備出發了嗎？</h3><p id="step-description">小安要傳訊息給小晴，先看看自己的 ARP 對照表有沒有小晴的 MAC。</p></div>
+            <div class="packet-inspector"><div class="inspector-title"><span>📦</span> 現在這個封包在說……</div><div class="inspector-fields"><div><small>種類</small><b id="packet-kind">尚未送出</b></div><div><small>詢問 / 回覆</small><b id="packet-sender">—</b></div><div><small>目標 IP</small><b id="packet-target">192.168.1.25</b></div></div><p id="packet-aside">等等看看封包裡有哪些資訊。</p></div>
+          </div>
+          <div class="lab-controls"><button class="button button-ghost" id="reset-button">⟲ 重來</button><div class="progress-track" aria-label="模擬進度"><span id="progress-fill"></span></div><button class="button button-ghost" id="play-button">▶ 自動播放</button><button class="button button-mint" id="next-button">送出下一個封包 <span aria-hidden="true">↗</span></button></div>
+        </div>
+        <p class="lab-footnote"><span>⌁</span> 這是瀏覽器裡的教學動畫，所有 IP 和 MAC 都是虛構的，不會對真實網路送出封包。</p>
+      </div>
+    </section>
+    
+    <nav class="page-switch section-wrap" aria-label="章節切換">
+      <a class="page-switch-link" href="arp.html"><small>上一頁</small><b>← ARP 是什麼</b></a>
+      <span class="page-switch-count">02 / 04</span>
+      <a class="page-switch-link page-switch-next" href="spoof.html"><small>下一頁</small><b>ARP 欺騙 →</b></a>
+    </nav>
+  </main>
+  <footer class="footer"><a class="brand" href="index.html"><span class="brand-mark" aria-hidden="true">⌁</span><span>封包探險隊 <small>NETWORK CLUB</small></span></a><span>用好奇心打開網路世界。</span><a href="index.html">回到首頁 ↑</a></footer>
+</body>
+</html>
