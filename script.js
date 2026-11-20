@@ -1,16 +1,26 @@
 if (document.querySelector("#topology")) {
+const frames = {
+  request: { kind: "Request · opcode 1", destination: "FF:FF:FF:FF:FF:FF · 廣播", sender: "192.168.1.12", senderMac: "AA:12", target: "192.168.1.25", targetMac: "未知 · 00:00…" },
+  reply: { kind: "Reply · opcode 2", destination: "AA:12 · 單點傳送", sender: "192.168.1.25", senderMac: "BB:25", target: "192.168.1.12", targetMac: "AA:12" },
+  fakeReply: { kind: "假 Reply · opcode 2", destination: "AA:12 · 單點傳送", sender: "192.168.1.25", senderMac: "CC:99（謊報）", target: "192.168.1.12", targetMac: "AA:12" },
+  data: { kind: "不是 ARP · IPv4 資料", destination: "BB:25 · 單點傳送", sender: "192.168.1.12", senderMac: "AA:12", target: "192.168.1.25", targetMac: "BB:25" },
+  misdirectedData: { kind: "不是 ARP · IPv4 資料", destination: "CC:99 · 單點傳送", sender: "192.168.1.12", senderMac: "AA:12", target: "192.168.1.25", targetMac: "CC:99（錯誤）" }
+};
 const scenarios = {
   normal: [
-    { title: "小安先找找看", description: "小安想傳訊息給小晴。自己的 ARP 對照表還沒有小晴的 MAC，所以要先問問。", kind: "ARP Request · 詢問", sender: "小安 → 大家", target: "192.168.1.25", aside: "「誰有 192.168.1.25？請告訴我你的 MAC！」這個問題會廣播給本地網路。", from: "you", to: "switch", icon: "?", fake: false },
-    { title: "交換器轉告大家", description: "交換器把廣播訊息送給本地網路裡的裝置。只有目標 IP 是 192.168.1.25 的小晴會認出來。", kind: "廣播 · Broadcast", sender: "交換器 → 本地網路", target: "192.168.1.25", aside: "廣播就像在教室裡大聲問問題，同一個網段的裝置都會收到。", from: "switch", to: "target", icon: "✉", fake: false },
-    { title: "小晴回覆門牌", description: "小晴確認目標 IP 是自己，回覆小安：「我的 MAC 是 BB:25。」", kind: "ARP Reply · 回覆", sender: "小晴 → 小安", target: "192.168.1.12", aside: "回覆通常直接傳給詢問者。小安可以把這筆 IP/MAC 對照暫存在 ARP 快取。", from: "target", to: "you", icon: "✓", fake: false },
-    { title: "資料找到正確方向", description: "小安記住小晴的 MAC，現在可以把訊息交給正確的網路卡。任務完成！", kind: "資料封包 · Data", sender: "小安 → 小晴", target: "192.168.1.25", aside: "這次 IP 找對了 MAC，封包就能在本地網路找到小晴。", from: "you", to: "target", icon: "✦", fake: false }
+    { title: "快取沒答案，先廣播詢問", description: "小安要傳資料給小晴，但 ARP 快取查不到她的 MAC。Request 在 ARP 內容裡寫上目標 IP，目標 MAC 留空；外層乙太網路目的 MAC 則用廣播。", kind: "ARP Request · 詢問", sender: "小安 → 本地網路", target: "192.168.1.25", aside: "別混淆兩層地址：ARP 目標 MAC 尚未知，乙太網路目的 MAC 才是 FF:FF:FF:FF:FF:FF。", frame: frames.request, cache: "未知", from: "you", to: "switch", icon: "?", fake: false },
+    { title: "交換器送到同一個區網", description: "交換器依照 MAC 廣播地址，將這個訊問送給同一個區域網路中的裝置。不同網段的電腦不會收到這次廣播。", kind: "ARP Request · 廣播", sender: "交換器 → 同一網段", target: "192.168.1.25", aside: "ARP 不會穿越路由器。若目標在別的網段，小安要查的是下一站路由器的 MAC。", frame: frames.request, cache: "未知", from: "switch", to: "target", icon: "✉", fake: false },
+    { title: "小晴用 Reply 回答", description: "小晴認出目標 IP 是自己，回覆「我的 MAC 是 BB:25」。回覆通常只送給小安，不需要再問全班。", kind: "ARP Reply · 回覆", sender: "小晴 → 小安", target: "192.168.1.12", aside: "Reply 把小安的 IP/MAC 放在目標欄位，小安可把小晴的 IP → BB:25 暫存在快取。", frame: frames.reply, cache: "BB:25", from: "target", to: "you", icon: "✓", fake: false },
+    { title: "用 MAC 送真正的資料", description: "查詢完成後，資料本身會放在 IPv4 封包裡。外層乙太網路標頭使用剛查到的 BB:25，這個資料封包不是 ARP。", kind: "IPv4 資料 · 已解析", sender: "小安 → 小晴", target: "192.168.1.25", aside: "IP 目的地仍是小晴；乙太網路目的 MAC 是 BB:25。IP 和 MAC 各自在不同層工作。", frame: frames.data, cache: "BB:25", from: "you", to: "target", icon: "✦", fake: false }
+  ],
+  cached: [
+    { title: "快取命中，省下一輪詢問", description: "小安已暫存 192.168.1.25 → BB:25。這次不用送 ARP Request，直接把 IPv4 資料交給小晴的網卡。", kind: "IPv4 資料 · 快取命中", sender: "小安 → 小晴", target: "192.168.1.25", aside: "ARP 快取像短期對照表。動態項目會過期；新連線若查不到目標，才需要重新解析。", frame: frames.data, cache: "BB:25", from: "you", to: "target", icon: "✦", fake: false }
   ],
   spoof: [
-    { title: "小安開始詢問", description: "小安廣播詢問：「誰有 192.168.1.25？」本地網路上的裝置都可能聽見。", kind: "ARP Request · 詢問", sender: "小安 → 大家", target: "192.168.1.25", aside: "正常流程從這裡開始，等著小晴用自己的 MAC 回覆。", from: "you", to: "switch", icon: "?", fake: false },
-    { title: "小晴給出正確答案", description: "小晴回覆：「192.168.1.25 是我，MAC 是 BB:25。」這是正確的對照。", kind: "ARP Reply · 回覆", sender: "小晴 → 小安", target: "192.168.1.12", aside: "ARP 的回覆沒有內建身分驗證，裝置可能接受收到的對照資料。", from: "target", to: "you", icon: "✓", fake: false },
-    { title: "陌生裝置也來搶答", description: "陌生裝置假裝自己是 192.168.1.25，謊稱 MAC 是 CC:99。小安可能把錯的答案記進 ARP 快取。", kind: "假的 ARP Reply · 冒充", sender: "陌生裝置 → 小安", target: "192.168.1.12", aside: "這種欺騙式的 IP/MAC 配對會污染 ARP 快取，也就是 ARP spoofing。", from: "rogue", to: "you", icon: "!", fake: true },
-    { title: "資料被帶錯路", description: "小安依照被騙到的紀錄，把原本要給小晴的資料送到陌生裝置。", kind: "資料封包 · 被誤導", sender: "小安 → 陌生裝置", target: "192.168.1.25", aside: "冒充者可能攔下資料或讓連線中斷。加密連線、網路設備檢查等措施能降低風險。", from: "you", to: "rogue", icon: "!", fake: true }
+    { title: "小安廣播詢問目標 IP", description: "小安在本地網路廣播「誰有 192.168.1.25？」同網段的裝置都可能聽見。", kind: "ARP Request · 詢問", sender: "小安 → 本地網路", target: "192.168.1.25", aside: "Request 的廣播是外層乙太網路目的 MAC；ARP 內容的目標 MAC 仍是未知。", frame: frames.request, cache: "未知", from: "you", to: "switch", icon: "?", fake: false },
+    { title: "小晴先回覆正確門牌", description: "小晴回覆 192.168.1.25 對應 BB:25，小安先記住這筆正常配對。", kind: "ARP Reply · 正常", sender: "小晴 → 小安", target: "192.168.1.12", aside: "請看發送者欄位：IP 和 MAC 是同一個寄件者自己提供的聲明。ARP 沒有簽章替它驗明身分。", frame: frames.reply, cache: "BB:25", from: "target", to: "you", icon: "✓", fake: false },
+    { title: "陌生裝置送來矛盾聲明", description: "陌生裝置也宣稱「192.168.1.25 是我」，但提供 MAC CC:99。某些裝置可能因此把小安的快取更新成錯誤配對。", kind: "ARP Reply · 可疑聲明", sender: "陌生裝置 → 小安", target: "192.168.1.12", aside: "ARP spoofing 的關鍵不是偷走 IP，而是讓受害裝置相信錯誤的 IP → MAC 對照。不同系統接受方式可能不同。", frame: frames.fakeReply, cache: "CC:99", from: "rogue", to: "you", icon: "!", fake: true },
+    { title: "IP 沒變，乙太網路目的地被改了", description: "小安仍想把資料送到 IP 192.168.1.25，卻照著受污染的快取把乙太網路封包送往 CC:99。", kind: "IPv4 資料 · 目的 MAC 錯誤", sender: "小安 → 陌生裝置", target: "192.168.1.25", aside: "冒充者若轉送流量，可能形成中間人路徑；若直接丟棄，可能造成斷線。HTTPS 能保護內容，但不會修好 ARP 快取。", frame: frames.misdirectedData, cache: "CC:99", from: "you", to: "rogue", icon: "!", fake: true }
   ]
 };
 
@@ -22,7 +32,11 @@ const stepCounter = document.querySelector("#step-counter");
 const packetKind = document.querySelector("#packet-kind");
 const packetSender = document.querySelector("#packet-sender");
 const packetTarget = document.querySelector("#packet-target");
+const ethernetDest = document.querySelector("#ethernet-dest");
 const packetAside = document.querySelector("#packet-aside");
+const cacheState = document.querySelector("#cache-state");
+const cacheMapping = document.querySelector("#cache-mapping");
+const cacheMappingDetail = document.querySelector("#cache-mapping-detail");
 const progressFill = document.querySelector("#progress-fill");
 const statusText = document.querySelector("#lab-status-text");
 const nextButton = document.querySelector("#next-button");
@@ -51,9 +65,14 @@ function resetLab() {
     ? "小安要傳訊息給小晴，先看看自己的 ARP 對照表有沒有小晴的 MAC。"
     : "切換到假冒情境，觀察錯誤的 ARP 回覆如何把資料帶錯路。";
   packetKind.textContent = "尚未送出";
-  packetSender.textContent = "—";
-  packetTarget.textContent = "192.168.1.25";
-  packetAside.textContent = "等等看看封包裡有哪些資訊。";
+  const cached = scenario === "cached";
+  packetSender.textContent = cached ? "192.168.1.12 → AA:12" : "—";
+  packetTarget.textContent = cached ? "192.168.1.25 → BB:25" : "192.168.1.25 → 未知";
+  ethernetDest.textContent = cached ? "BB:25 · 單點" : "—";
+  packetAside.textContent = "注意 ARP 目標 MAC 與乙太網路目的 MAC 是不同欄位。";
+  cacheState.textContent = cached ? "有效對照已存在" : "快取未命中";
+  cacheMapping.textContent = cached ? "BB:25" : "未知";
+  cacheMappingDetail.textContent = cached ? "192.168.1.25 → BB:25" : "尚未查詢";
   progressFill.style.width = "0%";
   nextButton.innerHTML = "送出下一個封包 <span aria-hidden=\"true\">↗</span>";
   playButton.textContent = "▶ 自動播放";
@@ -90,10 +109,14 @@ function showStep() {
   stepCounter.textContent = `STEP ${step} / ${events.length}`;
   stepTitle.textContent = event.title;
   stepDescription.textContent = event.description;
-  packetKind.textContent = event.kind;
-  packetSender.textContent = event.sender;
-  packetTarget.textContent = event.target;
+  packetKind.textContent = event.frame.kind;
+  ethernetDest.textContent = event.frame.destination;
+  packetSender.textContent = `${event.frame.sender} → ${event.frame.senderMac}`;
+  packetTarget.textContent = `${event.frame.target} → ${event.frame.targetMac}`;
   packetAside.textContent = event.aside;
+  cacheMapping.textContent = event.cache;
+  cacheMappingDetail.textContent = `192.168.1.25 → ${event.cache}`;
+  cacheState.textContent = event.cache === "未知" ? "快取未命中" : event.cache === "CC:99" ? "⚠ 配對被改寫" : "已記住對照";
   progressFill.style.width = `${(step / events.length) * 100}%`;
   statusText.textContent = scenario === "spoof" && event.fake ? "發現可疑封包" : "正在傳遞封包";
   if (step === events.length) nextButton.textContent = "完成，從頭再看 ⟲";
@@ -141,28 +164,46 @@ resetLab();
 
 if (document.querySelector("#quiz-card")) {
 const quiz = [
-  { question: "ARP 主要幫忙查出哪兩種地址的對照？", choices: ["網址和密碼", "IPv4 位址和 MAC 位址", "姓名和電話"], answer: 1, explanation: "答對！ARP 幫忙找到 IPv4 位址在本地網路中對應的 MAC 位址。" },
-  { question: "ARP Request 通常怎麼問同一個本地網路？", choices: ["只傳給全世界一台電腦", "廣播詢問大家", "寄到搜尋引擎"], answer: 1, explanation: "沒錯！ARP Request 會在本地網路廣播，目標裝置再回覆。" },
-  { question: "ARP spoofing 可能讓電腦記住什麼錯誤資料？", choices: ["IP 對 MAC 的錯誤配對", "錯誤的螢幕亮度", "錯誤的 Wi-Fi 密碼"], answer: 0, explanation: "答對！冒充者謊報 IP/MAC 配對，可能造成快取污染和流量被誤導。" }
+  { level: "ROUND 1 · 基礎概念", question: "小安要找同一個區網裡的 192.168.1.25。ARP Request 外層乙太網路的目的 MAC 是什麼？", choices: ["FF:FF:FF:FF:FF:FF，廣播給同一個區網", "BB:25，因為已經知道小晴的 MAC", "00:00:00:00:00:00，代表廣播"], answer: 0, explanation: "乙太網路目的 MAC 用 FF:FF:FF:FF:FF:FF 廣播；00:00… 是 ARP 內容中的目標硬體地址未知值，兩個欄位不要混在一起。" },
+  { level: "ROUND 1 · 基礎概念", question: "Request 已知目標 IP 是 192.168.1.25，但還不知道對方 MAC。ARP 內容的「目標 MAC」通常會是？", choices: ["小安自己的 AA:12", "全 00，表示目前未知", "FF:FF:FF:FF:FF:FF"], answer: 1, explanation: "全 00 表示 ARP 還不知道目標網卡的 MAC。外層乙太網路目的地才是 FF:FF:FF:FF:FF:FF。" },
+  { level: "ROUND 1 · 基礎概念", question: "小晴回覆 BB:25 後，小安送 IPv4 資料給她。外層乙太網路目的 MAC 應該是哪個？", choices: ["192.168.1.25", "FF:FF:FF:FF:FF:FF", "BB:25"], answer: 2, explanation: "IP 目的位址仍是 192.168.1.25；同一個區網上的乙太網路目的 MAC 是 BB:25。這就是兩層地址分工。" },
+  { level: "ROUND 1 · 基礎概念", question: "小安要連到另一個網段的網站。第一個乙太網路封包通常交給誰？", choices: ["遠方網站主機的 MAC，ARP 會跨網路找它", "本地路由器（預設閘道）的 MAC", "所有網路上的裝置一起收到"], answer: 1, explanation: "路由器會一站一站轉送。小安先用 ARP 找本地預設閘道的 MAC，ARP 廣播不會穿越路由器。" },
+  { level: "ROUND 2 · 拆解封包", question: "ARP 的 opcode 數字代表什麼？如果看到 opcode = 2，這是哪種訊息？", choices: ["Request 詢問", "Reply 回覆", "IPv4 資料"], answer: 1, explanation: "RFC 826 定義 1 是 Request、2 是 Reply。一般 IPv4 資料不會使用 ARP opcode。" },
+  { level: "ROUND 2 · 拆解封包", question: "ARP 封包裡的 sender IP 和 sender MAC 是由誰提供的？", choices: ["寄出 ARP 封包的裝置自己宣告", "交換器查詢全球資料庫後填入", "路由器從 DNS 名稱推算"], answer: 0, explanation: "發送者欄位是封包自己帶來的宣告。ARP 本身沒有簽章或密碼驗證，這也是信任邊界的重要線索。" },
+  { level: "ROUND 3 · 追查快取", question: "小安的快取被錯誤更新成 192.168.1.25 → CC:99。下一個資料封包的 IP 目的地仍是小晴；外層 MAC 目的地會變成什麼？", choices: ["BB:25，IP 會自動修正快取", "CC:99，因為小安照快取選目的 MAC", "FF:FF:FF:FF:FF:FF，每次資料都廣播"], answer: 1, explanation: "快取把 IP 映到 CC:99，所以同網段乙太網路封包可能送到陌生裝置；IP 目的地依然是 192.168.1.25。" },
+  { level: "ROUND 3 · 追查快取", question: "陌生裝置收到誤送流量後，若偷偷轉送到小晴，可能形成哪種情況？若直接丟掉呢？", choices: ["轉送可能是中間人路徑；丟掉可能造成阻斷服務", "兩種情況都只是 DNS 快取變慢", "轉送會自動證明 ARP 封包是真的"], answer: 0, explanation: "轉送可能讓攻擊者夾在雙方之間；不轉送則連線可能中斷。HTTPS 能保護內容完整性與機密性，但不能修復錯誤的 ARP 對照。" },
+  { level: "ROUND 4 · 防禦判斷", question: "交換器的 Dynamic ARP Inspection（DAI）主要怎麼幫忙？", choices: ["把每個網站自動改成 HTTPS", "把 ARP 配對和可信的 DHCP Snooping 紀錄或 ARP ACL 比對", "讓所有電腦永遠不使用 ARP"], answer: 1, explanation: "DAI 可檢查受保護連接埠進來的 IP/MAC 配對並丟棄不合理封包。它需要正確的綁定資料和交換器設定，不是所有網路都自動有。" },
+  { level: "ROUND 4 · 防禦判斷", question: "新裝置想確認 192.168.1.40 有沒有人使用，送出 ARP Probe 時 sender IP 會填什麼？", choices: ["0.0.0.0，表示自己還沒正式使用這個 IP", "192.168.1.40，表示已經確定是自己的", "255.255.255.255，代表所有目標 IP"], answer: 0, explanation: "RFC 5227 定義的 ARP Probe 會把 sender IP 設為 0.0.0.0，再詢問候選 IP 是否已有人使用。這是 ARP 的另一個用途：偵測位址衝突。" }
 ];
 let quizIndex = 0;
 let quizScore = 0;
 let answered = false;
+let quizFinished = false;
 const quizCount = document.querySelector("#quiz-count");
 const quizQuestion = document.querySelector("#quiz-question");
 const quizOptions = document.querySelector("#quiz-options");
 const quizFeedback = document.querySelector("#quiz-feedback");
 const quizNext = document.querySelector("#quiz-next");
+const quizLevel = document.querySelector("#quiz-level");
+const quizDots = document.querySelector(".quiz-dots");
+quizDots.replaceChildren(...quiz.map((_, i) => {
+  const dot = document.createElement("i");
+  if (i === 0) dot.classList.add("current");
+  dot.setAttribute("aria-hidden", "true");
+  return dot;
+}));
 
 function renderQuiz() {
   const item = quiz[quizIndex];
-  quizCount.textContent = `問題 ${quizIndex + 1} / ${quiz.length}`;
+  quizCount.textContent = `題目 ${quizIndex + 1} / ${quiz.length}`;
   document.querySelectorAll(".quiz-dots i").forEach((dot, i) => dot.classList.toggle("current", i === quizIndex));
+  quizLevel.textContent = item.level;
   quizQuestion.textContent = item.question;
   quizOptions.replaceChildren();
   quizFeedback.hidden = true;
   quizNext.hidden = true;
   answered = false;
+  quizFinished = false;
   item.choices.forEach((choice, i) => {
     const button = document.createElement("button");
     button.className = "quiz-option";
@@ -187,18 +228,26 @@ function renderQuiz() {
 }
 
 quizNext.addEventListener("click", () => {
-  quizIndex += 1;
-  if (quizIndex >= quiz.length) {
-    quizQuestion.textContent = quizScore === quiz.length ? "太棒了！你已經是封包小高手！" : `探險完成！你答對了 ${quizScore} / ${quiz.length} 題。`;
-    quizOptions.replaceChildren();
-    quizFeedback.textContent = "想再挑戰一次？把 ARP 查詢和假冒情境重新播放，觀察封包差在哪裡。";
-    quizFeedback.hidden = false;
-    quizNext.textContent = "再玩一次";
-    quizNext.hidden = false;
-    quizNext.onclick = () => { quizIndex = 0; quizScore = 0; quizNext.onclick = null; renderQuiz(); };
+  if (quizFinished) {
+    quizIndex = 0;
+    quizScore = 0;
+    renderQuiz();
     return;
   }
-  renderQuiz();
+  if (quizIndex < quiz.length - 1) {
+    quizIndex += 1;
+    renderQuiz();
+    return;
+  }
+  if (quizIndex === quiz.length - 1) {
+    quizFinished = true;
+    quizQuestion.textContent = quizScore >= 9 ? "封包判讀高手！" : quizScore >= 6 ? "很棒，你已經抓到 ARP 的關鍵了！" : "挑戰完成，再來一次會更熟。";
+    quizOptions.replaceChildren();
+    quizFeedback.textContent = `你答對 ${quizScore} / ${quiz.length} 題。記住三個核心：ARP 只找本地鏈路的下一跳 MAC；Request 廣播、Reply 通常單點回覆；收到的 IP/MAC 聲明沒有 ARP 身分驗證。`;
+    quizFeedback.hidden = false;
+    quizNext.textContent = "再挑戰一次";
+    quizNext.hidden = false;
+  }
 });
 
 renderQuiz();

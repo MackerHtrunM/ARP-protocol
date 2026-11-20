@@ -6,7 +6,7 @@
   <meta name="theme-color" content="#211f1b">
   <meta name="description" content="看看錯誤的 IP/MAC 配對如何讓區域網路中的資料走錯方向。">
   <title>ARP 欺騙解謎｜ARP 小小網路探險隊</title>
-  <link rel="stylesheet" href="styles.css?v=5">
+  <link rel="stylesheet" href="styles.css?v=7">
   
 </head>
 <body>
@@ -21,9 +21,9 @@
       <div class="section-heading"><div><div class="eyebrow"><span class="eyebrow-number">03</span> THE MYSTERY</div><h2>等等，這位同學是誰？</h2></div><p>ARP 本身不會先檢查回覆的人<br>是不是本人，可能有人趁機冒充。</p></div>
       <div class="mystery-grid">
         <div class="mystery-visual"><div class="mystery-card"><div class="speech speech-real">「我是 192.168.1.25，<br>我的 MAC 是 BB:25！」<span>小晴</span></div><div class="speech speech-fake">「我也是 192.168.1.25，<br>MAC 是 CC:99 喔！」<span>陌生裝置</span></div><div class="mini-computer">安</div><div class="mini-gate">交換器</div><div class="mystery-arrow arrow-one">→</div><div class="mystery-arrow arrow-two">↗</div><div class="question-mark">?</div></div><div class="mystery-stamp">誰說的<br>才是真的？</div></div>
-        <div class="mystery-copy"><span class="pill pill-orange">ARP SPOOFING · ARP 欺騙</span><h3>有人謊報 IP 與 MAC 的配對</h3><p>冒充者送出假的 ARP 訊息，讓小安把「小晴的 IP」記成「陌生裝置的 MAC」。這種錯誤記錄叫做 <b>ARP 快取污染</b>。</p><div class="result-box"><div class="result-icon">↳</div><div><b>接下來可能發生什麼？</b><span>資料可能先跑到冒充者那裡，被攔下或造成連線中斷。若其他安全條件也不足，才可能進一步被讀取或竄改。</span></div></div><div class="remember-chip">🧠 記住：被騙的是「IP 對 MAC 的對照表」</div></div>
+        <div class="mystery-copy"><span class="pill pill-orange">ARP SPOOFING · ARP 欺騙</span><h3>有人謊報 IP 與 MAC 的配對</h3><p>ARP 封包的寄件者欄位是裝置自己提供的聲明，ARP 沒有數位簽章替它驗明身分。某些系統可能依收到的 ARP 資訊更新快取；冒充者便謊稱「192.168.1.25 是我，MAC 是 CC:99」，造成<b> ARP 快取污染</b>。各作業系統的檢查方式會有差異。</p><div class="result-box"><div class="result-icon">↳</div><div><b>封包會走去哪裡？</b><span>小安的 IP 目的地仍是小晴，但乙太網路目的 MAC 可能改成 CC:99。冒充者轉送時可能形成中間人路徑，直接丟棄則可能造成斷線。</span></div></div><div class="remember-chip">🧠 精髓：信任了錯誤的「IP → MAC」對照</div></div>
       </div>
-      <div class="defense-panel"><div class="defense-icon">🛡</div><div><span class="eyebrow">DEFENSE SQUAD</span><h3>網路管理員有防護招式</h3><p>交換器可以用 <b>Dynamic ARP Inspection（DAI）</b> 檢查 ARP 訊息中的 IP/MAC 配對，和已知的裝置資料比對，擋下不合理的回覆。連線時也要留意奇怪的安全警告，使用 HTTPS 網站。</p></div><div class="shield-mark">OK!</div></div>
+      <div class="defense-panel"><div class="defense-icon">🛡</div><div><span class="eyebrow">DEFENSE SQUAD</span><h3>網路管理員有防護招式</h3><p><b>Dynamic ARP Inspection（DAI）</b> 可讓交換器把收到的 ARP 配對和可信資料（例如 DHCP Snooping 綁定表或管理員設定的 ARP ACL）比對，不合理的封包就丟棄。它需要正確設定，保護範圍也只涵蓋有啟用檢查的網路。HTTPS 可保護網頁內容，但不能阻止 ARP 快取被改寫。</p><div class="source-citations"><a href="https://datatracker.ietf.org/doc/html/rfc826" target="_blank" rel="noreferrer">RFC 826 · ARP 格式</a><a href="https://datatracker.ietf.org/doc/html/rfc5227" target="_blank" rel="noreferrer">RFC 5227 · ARP Probe</a><a href="https://www.cisco.com/c/en/us/td/docs/switches/lan/catalyst9400/software/release/17-12/configuration_guide/sec/b_1712_sec_9400_cg/configuring_dynamic_arp_inspection.html" target="_blank" rel="noreferrer">Cisco · DAI 防護</a></div></div><div class="shield-mark">OK!</div></div>
     </section>
     
     <nav class="page-switch section-wrap" aria-label="章節切換">

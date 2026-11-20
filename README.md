@@ -21,10 +21,10 @@ python3 serve.py
 
 - `index.html`：探險首頁與四個章節入口
 - `arp.html`：ARP、IP 和 MAC 入門
-- `lab.html`：封包逐步播放與正常 / 假冒情境切換
+- `lab.html`：快取命中 / 未命中 / 假冒回覆情境；ARP 欄位透視與快取變化
 - `spoof.html`：ARP spoofing 解說與防護方式
-- `quiz.html`：三題互動小測驗
-- `styles.css`：響應式視覺設計
+- `quiz.html`：十題由淺入深的封包判讀挑戰
+- `styles.css`：暖色課程工作台；桌機與較高手機視窗採單畫面排版
 - `script.js`：封包動畫與小測驗互動
 - `serve.py`：Python 標準函式庫本機靜態伺服器
 - `docs/設計簡報.md`：網站定位、頁面結構、視覺方向與內容依據
@@ -32,7 +32,10 @@ python3 serve.py
 ## 來源
 
 - [RFC 826：Ethernet Address Resolution Protocol](https://datatracker.ietf.org/doc/html/rfc826)
+- [RFC 5227：IPv4 Address Conflict Detection](https://datatracker.ietf.org/doc/html/rfc5227)
 - [Cisco：Dynamic ARP Inspection](https://www.cisco.com/c/en/us/td/docs/switches/lan/catalyst9600/software/release/17-13/configuration_guide/sec/b_1713_sec_9600_cg/configuring_dynamic_arp_inspection.html)
+- [AI 互動網站案例：Below the Surface](https://learn.chatgpt.com/showcase/below-the-surface)
+- [AI 互動網站案例：Living Cell](https://learn.chatgpt.com/showcase/living-cell-cross-section)
 - [Dilum Sanjaya 的繁體中文個人網站（視覺參考）](https://dilum.dev/zh-Hant)
 - [web-design-skill 導讀（設計流程參考）](https://recca0120.github.io/2026/04/25/web-design-skill-claude-design/)
 
