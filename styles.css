@@ -139,3 +139,93 @@ body{background:#211f1b;color:#eee7d9}
 @media (min-height:720px) and (max-width:899px){.resolution-flow{display:none}}
 @media (max-height:719px){.resolution-flow{display:none}}
 .quiz-intro{display:flex;flex-direction:column;align-items:flex-end;gap:8px}.quiz-intro p{margin:0}.backend-status{display:inline-flex;align-items:center;min-height:28px;padding:4px 10px;border:1px solid rgba(185,207,142,.35);border-radius:999px;color:#d6e4b3;font:600 11px/1.4 var(--mono);letter-spacing:.01em}.backend-status[data-state="connecting"]{color:#e5c98d;border-color:rgba(229,201,141,.4)}.backend-status[data-state="offline"]{color:#d1a99b;border-color:rgba(209,169,155,.4)}
+
+/* The four lesson stops are real links with a short preview, not just markers. */
+.course-timeline ol{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:7px;margin:9px 0 0;padding:0;list-style:none}
+.course-timeline ol:before{display:none}
+.course-timeline li{display:block;min-width:0;font-size:12px}
+.course-timeline li a{display:grid;grid-template-columns:24px minmax(0,1fr);align-items:center;gap:6px;min-height:42px;padding:5px 6px;border:1px solid #514b40;border-radius:10px;background:#302c25;transition:background .18s,border-color .18s}
+.course-timeline li a:hover,.course-timeline li a:focus-visible{background:#3c4232;border-color:#91a874}
+.course-timeline li i{grid-row:span 2;width:23px;height:23px;font-size:11px}
+.course-timeline li a span{display:grid;gap:2px;min-width:0}
+.course-timeline li a b{font-size:12px;line-height:1.25;color:#e6dece}
+.course-timeline li a small{font-size:10px;line-height:1.3;color:#b5ab99}
+.course-timeline li.current a{border-color:#a3b584;background:#414a35}
+.course-timeline li.current a b{color:#f2f0e7}
+.course-timeline li:not(.current) a i{background:#302c25;color:#d2c8b8}
+
+@media (min-width:900px) and (min-height:720px){
+  .course-canvas .eyebrow{font-size:11px}.concept-stats small{font-size:11px}.concept-stats b{font-size:13px}
+  .course-canvas .address-card .pill{font-size:11px}.course-canvas .address-card h3{font-size:16px}.course-canvas .address-card p{font-size:13px;line-height:1.55}
+  .course-canvas .address-example{font-size:11px}.course-canvas .address-example strong{font-size:11px}
+  .flow-heading{font-size:13px}.flow-heading span{font-size:11px}.flow-steps b{font-size:12px}.flow-steps small{font-size:11px}.flow-steps i{font-size:10px}
+  .layer-difference span{font-size:10px}.layer-difference b{font-size:10px}.course-canvas .note-strip p{font-size:12px;line-height:1.45}
+  .course-timeline{padding:6px 9px}.course-timeline li a{min-height:38px;padding:4px 5px}.course-timeline li a b{font-size:11px}.course-timeline li a small{font-size:9px}
+  .lesson-sidebar .sidebar-step{font-size:12px}.lesson-sidebar>p{font-size:14px;line-height:1.55}.sidebar-tip b{font-size:12px}.sidebar-tip span{font-size:12px;line-height:1.5}.sidebar-change{font-size:12px}.sidebar-actions .button{font-size:12px}.sidebar-hint{font-size:11px}
+  .lab-section .section-heading>p,.step-copy p{font-size:13px}.scenario-button{font-size:11px}.inspector-fields small,.inspector-fields b{font-size:12px}.packet-inspector>p{font-size:12px}.lab-controls .button{font-size:12px}
+  #spoof .section-heading>p,.mystery-copy,.mystery-copy p,.result-box span{font-size:13px}.defense-panel p{font-size:12px}.source-citations a{font-size:11px}
+  .quiz-section .section-heading>p,.quiz-option{font-size:13px}.quiz-progress{font-size:12px}.quiz-level{font-size:11px}.quiz-feedback{font-size:13px}
+}
+
+@media (min-width:900px) and (min-height:720px) and (max-height:799px){
+  .course-canvas{grid-template-rows:auto minmax(0,1fr) auto auto auto}
+  .course-canvas .concept-stats{display:none}
+  .course-canvas .address-grid{max-height:min(32vh,225px)}
+  .course-canvas .address-card{padding:12px 14px}
+  .course-timeline{padding:5px 8px}
+}
+
+/* Portrait phones get readable, naturally scrolling lessons instead of tiny text. */
+@media (min-height:720px) and (max-width:680px){
+  html,body{height:auto;min-height:100%;overflow-x:hidden;overflow-y:auto}
+  body{display:block;min-height:100dvh}
+  .topbar{position:sticky;top:0;height:auto;min-height:82px;padding:8px 14px;z-index:20}
+  .topbar nav{gap:12px;padding:2px 0 4px;font-size:12px;overflow-x:auto;white-space:nowrap}
+  .topbar nav a{font-size:12px}.nav-cta{font-size:12px;padding:8px 10px}.brand{font-size:14px}.brand-mark{width:32px;height:32px;font-size:23px}
+  #main{height:auto;min-height:calc(100dvh - 82px);overflow:visible}
+  .page-switch,.footer{display:flex}
+  .page-switch{margin-block:16px}.footer{gap:12px;flex-wrap:wrap;padding:18px 16px;font-size:13px}
+  .course-lesson-page{width:calc(100% - 24px);height:auto;padding:14px 0}
+  .course-workspace{height:auto;display:flex;flex-direction:column;gap:12px}
+  .course-canvas{display:block;overflow:visible;padding:16px;border-radius:18px}
+  .course-canvas>.section-heading{margin-bottom:14px}.course-canvas .section-heading h2{font-size:27px;line-height:1.2}
+  .course-canvas .section-heading>p{display:block;font-size:14px;line-height:1.5}
+  .concept-stats{display:flex;gap:7px;margin:0 0 12px}.concept-stats span{min-width:0;flex:1;padding:8px}.concept-stats small{font-size:11px}.concept-stats b{font-size:13px}
+  .course-canvas .address-grid{grid-template-columns:minmax(0,1fr) 42px minmax(0,1fr);grid-template-rows:auto;gap:4px;min-height:0;padding-bottom:8px}
+  .course-canvas .address-card{grid-row:1;min-height:205px;padding:13px 11px;border-radius:14px}
+  .course-canvas .ip-card{grid-column:1}.course-canvas .mac-card{grid-column:3}
+  .course-canvas .address-symbol{font-size:29px;margin:12px 0 6px}.course-canvas .address-symbol span{font-size:12px}
+  .course-canvas .address-card h3{font-size:14px;line-height:1.35}.course-canvas .address-card p{font-size:13px;line-height:1.5;overflow-wrap:anywhere}
+  .course-canvas .address-card .pill{font-size:10px;padding:5px 7px}.course-canvas .card-doodle{font-size:15px}
+  .course-canvas .address-example{display:flex;flex-direction:column;align-items:flex-start;gap:2px;margin-top:8px;padding-top:7px;font-size:11px}
+  .course-canvas .address-example strong{font-size:10px;overflow-wrap:anywhere}
+  .course-canvas .arp-bridge{position:relative;left:auto;top:auto;transform:none;align-self:center;grid-column:2;grid-row:1;width:42px;height:42px}
+  .course-canvas .arp-bridge span{font-size:13px}.course-canvas .arp-bridge b{display:none}.course-canvas .arp-bridge small{display:none}
+  .resolution-flow{display:block;padding:12px;margin-top:8px}.flow-heading{display:block;font-size:14px}.flow-heading span{display:block;margin-top:3px;font-size:12px}
+  .flow-steps{grid-template-columns:1fr;gap:8px;margin-top:10px}.flow-steps div{grid-template-columns:27px 1fr;padding:7px 8px;border-radius:9px;background:#363229}.flow-steps div>b{font-size:13px}.flow-steps small{font-size:12px}.flow-steps i{width:23px;height:23px;font-size:11px}.flow-steps>span{display:none}
+  .layer-difference{display:grid;grid-template-columns:1fr;gap:6px;margin-top:9px}.layer-difference span{font-size:12px}.layer-difference b{font-size:11px}
+  .course-canvas .note-strip{margin-top:10px;padding:9px 11px}.course-canvas .note-strip p{font-size:13px;line-height:1.55}
+  .course-timeline{margin-top:10px;padding:12px}.timeline-heading{font-size:14px;gap:5px}.timeline-heading span{font-size:11px;text-align:right}
+  .course-timeline ol{grid-template-columns:1fr 1fr;gap:7px;margin-top:9px}.course-timeline li a{grid-template-columns:27px minmax(0,1fr);min-height:52px;padding:7px}
+  .course-timeline li i{width:25px;height:25px;font-size:12px}.course-timeline li a b{font-size:12px}.course-timeline li a small{font-size:10px}
+  .lesson-sidebar{min-height:0;display:grid;grid-template-columns:1fr;gap:10px;padding:14px;border-radius:16px}
+  .sidebar-step{font-size:13px}.lesson-sidebar h3{font-size:21px}.lesson-sidebar>p{font-size:14px;line-height:1.6}.sidebar-tip{padding:10px;gap:9px}.sidebar-tip-icon{flex-basis:32px;height:32px;font-size:15px}.sidebar-tip b,.sidebar-tip span{font-size:13px;line-height:1.5}.sidebar-change{display:grid;gap:7px;font-size:13px}.sidebar-change>b{font-size:13px}.sidebar-change i{width:20px;height:20px}.sidebar-actions{gap:8px;padding-top:4px}.sidebar-actions .button{padding:9px;font-size:12px}.sidebar-hint{font-size:11px}
+  .lab-section{height:auto}.lab-section .section-pad{height:auto;min-height:0;width:calc(100% - 24px);padding:18px 0;display:flex;flex-direction:column;gap:10px}
+  .lab-section .section-heading{margin:0}.lab-section .section-heading h2{font-size:27px;margin:4px 0}.lab-section .section-heading>p{display:block;font-size:14px}.lab-toolbar{margin:0}.scenario-switch{flex-wrap:wrap;gap:5px;padding:5px}.scenario-button{font-size:12px;padding:7px 9px}
+  .lab-frame{height:auto;min-height:0;grid-template-columns:1fr;grid-template-rows:290px auto;gap:10px;padding:9px}
+  .topology{height:290px;min-height:290px}.device{width:86px;min-height:78px;padding:6px 4px}.device-avatar{width:30px;height:30px;font-size:14px}.device b{font-size:11px}.device>span,.device code{font-size:9px}
+  .device-you,.device-switch,.device-target{top:calc(42% - 38px)}.device-you{left:3%}.device-target{right:3%}.device-switch{left:calc(50% - 43px)}
+  .device-rogue{left:auto;right:4%;bottom:7px;opacity:.75;transform:scale(.9)}.arp-cache{left:8px;bottom:8px;width:48%;padding:8px}.arp-cache b{font-size:10px}.arp-cache span,.arp-cache code,.arp-cache p,.arp-cache strong{font-size:9px}
+  .topology-label{font-size:9px}.network-cloud{font-size:8px}.lab-lesson-panel{display:flex;flex-direction:column;gap:9px;overflow:visible;padding:5px}
+  .lesson-panel-top{font-size:12px}.step-copy h3{font-size:20px}.step-copy p{font-size:14px;line-height:1.55}.packet-inspector{min-height:0;padding:10px}.inspector-title{font-size:12px}.inspector-title small{font-size:10px}.inspector-fields{gap:6px 10px;margin:8px 0;padding:7px 0}.inspector-fields small{font-size:11px}.inspector-fields b{font-size:12px}.packet-inspector>p{display:block;font-size:12px}
+  .lab-learning{display:grid;font-size:12px}.lab-learning>b{font-size:12px}.lab-controls{display:flex;flex-direction:column;gap:8px}.lab-controls .button{padding:9px;font-size:12px}.lab-controls>.button-mint{min-height:40px}.lab-footnote{display:block;font-size:12px}
+  #spoof.section-pad{height:auto;padding:18px 0;display:block}.section-wrap#spoof{width:calc(100% - 24px)}#spoof .section-heading{margin:0 0 12px}#spoof .section-heading h2{font-size:27px;margin:4px 0}#spoof .section-heading>p{display:block;font-size:14px}
+  .mystery-grid{height:auto;min-height:0;display:grid;grid-template-columns:1fr;gap:14px}.mystery-visual{height:320px;min-height:320px}.mystery-card{width:min(86%,320px);height:274px}
+  .mini-computer{left:13%;width:58px;height:58px}.mini-gate{right:13%;width:75px;height:46px;font-size:12px}
+  .mystery-copy{font-size:15px}.mystery-copy h3{font-size:21px;margin:9px 0}.mystery-copy p{font-size:15px;line-height:1.65}.mystery-copy .pill{font-size:11px}
+  .result-box{padding:11px;gap:9px}.result-box span{font-size:14px;line-height:1.55}.result-box b{font-size:14px}.result-icon{font-size:20px}.remember-chip{font-size:12px;padding:8px 10px}
+  .defense-panel{margin-top:12px;padding:12px;gap:10px}.defense-icon{flex-basis:34px;height:34px;font-size:16px}.defense-panel .eyebrow{font-size:10px}.defense-panel h3{font-size:16px;margin:4px 0}.defense-panel p{font-size:13px;line-height:1.6}.source-citations{gap:8px 12px;margin-top:8px}.source-citations a{font-size:10px}
+  .quiz-section{height:auto}.quiz-section .section-wrap.section-pad{height:auto;min-height:0;width:calc(100% - 24px);padding:20px 0;display:block}.quiz-section .section-heading{margin:0 0 12px}.quiz-section .section-heading h2{font-size:27px;margin:4px 0}.quiz-section .section-heading>p{display:block;font-size:14px}
+  .quiz-card{width:100%;max-height:none;overflow:visible;padding:14px}.quiz-progress{font-size:12px}.quiz-card h3{font-size:17px;line-height:1.5;margin:10px 0}.quiz-level{font-size:11px;margin-top:5px}.quiz-option{padding:10px;font-size:14px}.quiz-options{gap:7px}.quiz-feedback{font-size:13px;line-height:1.55;padding:9px;margin-top:8px}.quiz-next{font-size:13px;padding:9px;margin-top:8px}.quiz-dots{grid-template-columns:repeat(5,7px);gap:4px}.quiz-dots i{width:7px;height:7px}
+  .quiz-intro{align-items:flex-start;gap:5px}.quiz-intro p{display:block!important;font-size:13px}.backend-status{font-size:10px}
+}

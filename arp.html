@@ -6,7 +6,7 @@
   <meta name="theme-color" content="#211f1b">
   <meta name="description" content="認識 IP 和 MAC 的分工，以及 ARP 如何在本地網路找到對應的網卡地址。">
   <title>ARP 是什麼｜ARP 小小網路探險隊</title>
-  <link rel="stylesheet" href="styles.css?v=7">
+  <link rel="stylesheet" href="styles.css?v=9">
   
 </head>
 <body>
@@ -29,7 +29,7 @@
       </div>
           <div class="resolution-flow" aria-label="ARP 查詢流程重點"><div class="flow-heading"><b>ARP 真正解決的問題</b><span>從 IP 找到本地網路的下一站 MAC</span></div><div class="flow-steps"><div><i>01</i><b>先查快取</b><small>有紀錄就直接用</small></div><span aria-hidden="true">→</span><div><i>02</i><b>未知才廣播</b><small>Request 問目標 IP</small></div><span aria-hidden="true">→</span><div><i>03</i><b>記住回覆</b><small>用 MAC 送 IPv4 資料</small></div></div><div class="layer-difference"><span>ARP 目標 MAC <b>未知：00:00…</b></span><span>外層乙太網路目的 MAC <b>廣播：FF:FF…</b></span></div></div>
             <div class="note-strip"><span class="note-icon">i</span><p><b>小提醒</b> ARP 通常用在同一個區域網路內，幫忙查詢 IPv4 位址對應的 MAC 位址。要傳到遠方網路時，電腦通常會先找「路由器」的 MAC。</p></div>
-          <div class="course-timeline" aria-label="課程進度"><div class="timeline-heading"><b>探險路線</b><span>第 1 步，共 4 步</span></div><ol><li class="current"><i>1</i><span>地址</span></li><li><i>2</i><span>ARP 查詢</span></li><li><i>3</i><span>假冒</span></li><li><i>4</i><span>防護</span></li></ol></div>
+          <nav class="course-timeline" aria-label="四步探險路線"><div class="timeline-heading"><b>接下來怎麼探索 ARP？</b><span>第 1 步已開啟 · 點選下一步</span></div><ol><li class="current"><a href="arp.html#what" aria-current="step"><i>1</i><span><b>認識地址</b><small>分清 IP 和 MAC</small></span></a></li><li><a href="lab.html"><i>2</i><span><b>看 ARP 查詢</b><small>追蹤 Request 和 Reply</small></span></a></li><li><a href="spoof.html#spoof"><i>3</i><span><b>破解假冒</b><small>找出錯誤配對怎麼改路</small></span></a></li><li><a href="spoof.html#defense"><i>4</i><span><b>認識防護</b><small>看看交換器如何檢查</small></span></a></li></ol></nav>
         </div>
         <aside class="lesson-sidebar" aria-label="課程說明">
           <div class="sidebar-step"><b>第 1 / 4 步</b><span class="tip-pill">入門</span></div>
