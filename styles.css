@@ -138,3 +138,4 @@ body{background:#211f1b;color:#eee7d9}
 @media (max-width:680px){.topbar nav{grid-column:1/-1;grid-row:2}.nav-cta{grid-column:2;grid-row:1;justify-self:end}}
 @media (min-height:720px) and (max-width:899px){.resolution-flow{display:none}}
 @media (max-height:719px){.resolution-flow{display:none}}
+.quiz-intro{display:flex;flex-direction:column;align-items:flex-end;gap:8px}.quiz-intro p{margin:0}.backend-status{display:inline-flex;align-items:center;min-height:28px;padding:4px 10px;border:1px solid rgba(185,207,142,.35);border-radius:999px;color:#d6e4b3;font:600 11px/1.4 var(--mono);letter-spacing:.01em}.backend-status[data-state="connecting"]{color:#e5c98d;border-color:rgba(229,201,141,.4)}.backend-status[data-state="offline"]{color:#d1a99b;border-color:rgba(209,169,155,.4)}

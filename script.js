@@ -179,6 +179,9 @@ let quizIndex = 0;
 let quizScore = 0;
 let answered = false;
 let quizFinished = false;
+let quizMode = null;
+let serverSessionId = null;
+let backendAttempt = 0;
 const quizCount = document.querySelector("#quiz-count");
 const quizQuestion = document.querySelector("#quiz-question");
 const quizOptions = document.querySelector("#quiz-options");
@@ -186,12 +189,50 @@ const quizFeedback = document.querySelector("#quiz-feedback");
 const quizNext = document.querySelector("#quiz-next");
 const quizLevel = document.querySelector("#quiz-level");
 const quizDots = document.querySelector(".quiz-dots");
+const backendStatus = document.querySelector("#backend-status");
+const apiBase = (window.ARP_API_BASE_URL || "").replace(/\/$/, "");
 quizDots.replaceChildren(...quiz.map((_, i) => {
   const dot = document.createElement("i");
   if (i === 0) dot.classList.add("current");
   dot.setAttribute("aria-hidden", "true");
   return dot;
 }));
+
+async function prepareBackend() {
+  const attempt = ++backendAttempt;
+  serverSessionId = null;
+  if (!apiBase) {
+    if (quizMode !== "local") quizMode = "local";
+    backendStatus.textContent = "本機模式 · API 尚未設定";
+    backendStatus.dataset.state = "offline";
+    return;
+  }
+  backendStatus.textContent = "連接 Python 後端中…";
+  backendStatus.dataset.state = "connecting";
+  try {
+    const health = await fetch(`${apiBase}/api/health`, { signal: AbortSignal.timeout(65000) });
+    if (!health.ok) throw new Error("API 未就緒");
+    const response = await fetch(`${apiBase}/api/quiz/start`, { method: "POST", signal: AbortSignal.timeout(10000) });
+    if (!response.ok) throw new Error("無法建立測驗");
+    const session = await response.json();
+    if (attempt !== backendAttempt) return;
+    if (quizMode === "local") {
+      backendStatus.textContent = "本次挑戰使用本機計分";
+      backendStatus.dataset.state = "offline";
+    } else {
+      serverSessionId = session.session_id;
+      quizMode = "backend";
+      backendStatus.textContent = "Python 後端已連線 · 伺服器計分";
+      backendStatus.dataset.state = "online";
+    }
+  } catch {
+    if (attempt !== backendAttempt) return;
+    serverSessionId = null;
+    if (!quizMode) quizMode = "local";
+    backendStatus.textContent = "後端暫時無法連線 · 本機仍可作答";
+    backendStatus.dataset.state = "offline";
+  }
+}
 
 function renderQuiz() {
   const item = quiz[quizIndex];
@@ -208,17 +249,40 @@ function renderQuiz() {
     const button = document.createElement("button");
     button.className = "quiz-option";
     button.textContent = `${String.fromCharCode(65 + i)}　${choice}`;
-    button.addEventListener("click", () => {
+    button.addEventListener("click", async () => {
       if (answered) return;
       answered = true;
-      const correct = i === item.answer;
+      if (quizMode === null) quizMode = serverSessionId ? "backend" : "local";
+      quizOptions.querySelectorAll("button").forEach((option) => { option.disabled = true; });
+      let correct = i === item.answer;
+      let explanation = item.explanation;
+      let correctChoiceIndex = item.answer;
+      if (quizMode === "backend" && serverSessionId) {
+        try {
+          const response = await fetch(`${apiBase}/api/quiz/answer`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ session_id: serverSessionId, question_index: quizIndex, choice_index: i }),
+            signal: AbortSignal.timeout(10000)
+          });
+          if (!response.ok) throw new Error("評分服務暫時無法使用");
+          const result = await response.json();
+          correct = result.is_correct;
+          explanation = result.explanation;
+          correctChoiceIndex = result.correct_choice_index;
+        } catch {
+          quizMode = "local";
+          serverSessionId = null;
+          backendStatus.textContent = "後端中斷 · 已切換本機計分";
+          backendStatus.dataset.state = "offline";
+        }
+      }
       if (correct) quizScore += 1;
       quizOptions.querySelectorAll("button").forEach((option, optionIndex) => {
-        option.disabled = true;
-        if (optionIndex === item.answer) option.classList.add("correct");
+        if (optionIndex === correctChoiceIndex) option.classList.add("correct");
         else if (optionIndex === i) option.classList.add("incorrect");
       });
-      quizFeedback.textContent = `${correct ? "答對了！" : "再記一下～"} ${item.explanation}`;
+      quizFeedback.textContent = `${correct ? "答對了！" : "再記一下～"} ${explanation}`;
       quizFeedback.hidden = false;
       quizNext.hidden = false;
       quizNext.innerHTML = quizIndex === quiz.length - 1 ? "看結果 <span aria-hidden=\"true\">↗</span>" : "下一題 <span aria-hidden=\"true\">↗</span>";
@@ -227,10 +291,12 @@ function renderQuiz() {
   });
 }
 
-quizNext.addEventListener("click", () => {
+quizNext.addEventListener("click", async () => {
   if (quizFinished) {
     quizIndex = 0;
     quizScore = 0;
+    quizMode = null;
+    prepareBackend();
     renderQuiz();
     return;
   }
@@ -241,9 +307,22 @@ quizNext.addEventListener("click", () => {
   }
   if (quizIndex === quiz.length - 1) {
     quizFinished = true;
-    quizQuestion.textContent = quizScore >= 9 ? "封包判讀高手！" : quizScore >= 6 ? "很棒，你已經抓到 ARP 的關鍵了！" : "挑戰完成，再來一次會更熟。";
+    let finalScore = quizScore;
+    if (quizMode === "backend" && serverSessionId) {
+      try {
+        const response = await fetch(`${apiBase}/api/quiz/result/${serverSessionId}`, { signal: AbortSignal.timeout(10000) });
+        if (!response.ok) throw new Error("無法取得測驗結果");
+        const result = await response.json();
+        finalScore = result.score;
+      } catch {
+        quizMode = "local";
+        backendStatus.textContent = "結果由本機計算 · 後端暫時中斷";
+        backendStatus.dataset.state = "offline";
+      }
+    }
+    quizQuestion.textContent = finalScore >= 9 ? "封包判讀高手！" : finalScore >= 6 ? "很棒，你已經抓到 ARP 的關鍵了！" : "挑戰完成，再來一次會更熟。";
     quizOptions.replaceChildren();
-    quizFeedback.textContent = `你答對 ${quizScore} / ${quiz.length} 題。記住三個核心：ARP 只找本地鏈路的下一跳 MAC；Request 廣播、Reply 通常單點回覆；收到的 IP/MAC 聲明沒有 ARP 身分驗證。`;
+    quizFeedback.textContent = `你答對 ${finalScore} / ${quiz.length} 題。記住三個核心：ARP 只找本地鏈路的下一跳 MAC；Request 廣播、Reply 通常單點回覆；收到的 IP/MAC 聲明沒有 ARP 身分驗證。`;
     quizFeedback.hidden = false;
     quizNext.textContent = "再挑戰一次";
     quizNext.hidden = false;
@@ -251,4 +330,5 @@ quizNext.addEventListener("click", () => {
 });
 
 renderQuiz();
+prepareBackend();
 }
