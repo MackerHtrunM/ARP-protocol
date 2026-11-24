@@ -229,3 +229,79 @@ body{background:#211f1b;color:#eee7d9}
   .quiz-card{width:100%;max-height:none;overflow:visible;padding:14px}.quiz-progress{font-size:12px}.quiz-card h3{font-size:17px;line-height:1.5;margin:10px 0}.quiz-level{font-size:11px;margin-top:5px}.quiz-option{padding:10px;font-size:14px}.quiz-options{gap:7px}.quiz-feedback{font-size:13px;line-height:1.55;padding:9px;margin-top:8px}.quiz-next{font-size:13px;padding:9px;margin-top:8px}.quiz-dots{grid-template-columns:repeat(5,7px);gap:4px}.quiz-dots i{width:7px;height:7px}
   .quiz-intro{align-items:flex-start;gap:5px}.quiz-intro p{display:block!important;font-size:13px}.backend-status{font-size:10px}
 }
+
+/* Drag-and-drop ARP routing challenge */
+.flow-quiz-section{padding-top:24px;padding-bottom:22px}
+.flow-quiz-section>.section-heading{margin-bottom:12px}
+.flow-quiz-section>.section-heading h2{font-size:clamp(27px,3vw,38px)}
+.flow-quiz-section>.section-heading>p{font-size:15px;line-height:1.5}
+.flow-quiz-card{display:flex;flex-direction:column;gap:11px;min-height:0;padding:15px;border:1px solid #4d473d;border-radius:20px;background:linear-gradient(145deg,#28251f,#211f1b);box-shadow:0 14px 36px rgba(0,0,0,.2)}
+.flow-quiz-toolbar{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.flow-scenarios{display:flex;gap:7px;flex-wrap:wrap}
+.flow-scenario{min-height:40px;padding:8px 13px;border:1px solid #5b5448;border-radius:999px;background:#302c25;color:#cfc5b4;font-size:14px;font-weight:800;cursor:pointer}
+.flow-scenario:hover,.flow-scenario:focus-visible{border-color:#a4b584;color:#f4efdf}
+.flow-scenario.is-active{border-color:#9bab76;background:#414a35;color:#f1f1e6}
+.flow-progress{padding:6px 10px;border:1px solid #5b5448;border-radius:999px;color:#cfc5b4;font-size:13px;white-space:nowrap}
+.flow-progress[data-done="true"]{border-color:#91a874;color:#dce8c3}
+.flow-question{display:grid;grid-template-columns:auto 1fr;align-items:center;column-gap:12px;row-gap:3px;padding:10px 12px;border:1px solid #484238;border-radius:13px;background:#2e2a24}
+.flow-tag{grid-row:span 2;align-self:start;padding:6px 9px;border-radius:999px;background:#414a35;color:#dce8c3;font:700 11px/1.2 var(--mono);white-space:nowrap}
+.flow-question h3{margin:0;color:#eee6d7;font-size:19px;line-height:1.35}
+.flow-question p{margin:0;color:#beb4a2;font-size:14px;line-height:1.45}
+.flow-board{display:grid;grid-template-rows:minmax(0,1fr) auto;gap:9px;min-height:0}
+.flow-board-title{display:flex;align-items:baseline;justify-content:space-between;gap:12px;margin-bottom:6px;color:#e6dece;font-size:14px}
+.flow-board-title span{color:#b8ad9a;font-size:12px}
+.flow-slots{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));grid-auto-rows:minmax(55px,1fr);gap:7px;min-height:0}
+.flow-slots[data-route="remote"]{grid-template-columns:repeat(3,minmax(0,1fr));grid-auto-rows:minmax(55px,1fr)}
+.flow-slot{display:flex;align-items:center;gap:9px;min-width:0;padding:7px 9px;border:1px dashed #716858;border-radius:12px;background:rgba(55,50,42,.64);color:#ded5c5;cursor:pointer;transition:border-color .15s,background .15s,transform .15s}
+.flow-slot:focus-visible,.flow-slot.is-drop-target{outline:2px solid #9caf78;outline-offset:1px;border-color:#b5c994;background:#3c4232}
+.flow-slot-number{flex:0 0 27px;display:grid;place-items:center;width:27px;height:27px;border-radius:8px;background:#435137;color:#e2e9d1;font:700 12px/1 var(--mono)}
+.flow-slot-placeholder{color:#a79d8c;font-size:13px}
+.flow-slot.has-block{border-style:solid;border-color:#554e42;background:#302c25}
+.flow-block{display:flex;align-items:flex-start;gap:8px;width:100%;min-width:0;padding:8px 10px;border:1px solid #625a4d;border-radius:10px;background:#38332b;color:#eee6d7;text-align:left;font-size:14px;line-height:1.35;cursor:grab;touch-action:manipulation}
+.flow-block:hover{border-color:#a0b47b;background:#3b4032}
+.flow-block:active{cursor:grabbing}
+.flow-block.is-selected{border-color:#c5d6a2;background:#414a35;box-shadow:0 0 0 2px rgba(160,180,123,.23)}
+.flow-block.is-dragging{opacity:.45}
+.flow-block-grip{flex:0 0 auto;color:#c8b99f;font-size:15px;line-height:1}
+.flow-bank-wrap{min-height:0}
+.flow-bank{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:7px}
+.flow-slots[data-route="remote"]+.flow-bank-wrap .flow-bank{grid-template-columns:repeat(3,minmax(0,1fr))}
+.flow-bank .flow-block{min-height:48px}
+.flow-controls{display:flex;align-items:center;justify-content:flex-end;gap:8px;flex-wrap:wrap}
+.flow-controls .button{min-height:40px;padding:8px 13px;font-size:14px}
+.flow-feedback{min-height:24px;margin:0;color:#ddd3c2;font-size:14px;line-height:1.5}
+.flow-feedback[data-state="wrong"],.flow-feedback[data-state="hint"]{color:#ecc08d}
+.flow-feedback[data-state="correct"]{color:#d6e4b3;font-weight:800}
+.flow-insight{padding:10px 12px;border-left:3px solid #91a874;border-radius:0 10px 10px 0;background:#343b2c;color:#d7ddc8;font-size:14px;line-height:1.5}
+.flow-insight b{color:#f0eadf}
+.flow-sources{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-top:8px;color:#aaa08f;font-size:12px}
+.flow-sources a{color:#d1dfaF;text-decoration:underline;text-underline-offset:3px}
+.flow-sources a:hover{color:#fff}
+body.flow-quiz-page{background-color:#211f1b}
+@media (min-width:900px) and (min-height:720px){
+  .flow-quiz-section.section-pad{height:100%;width:min(1320px,calc(100% - 48px));padding:15px 0 10px;display:grid;grid-template-rows:auto minmax(0,1fr) auto;gap:4px;min-height:0}
+  .flow-quiz-section>.section-heading{margin:0}.flow-quiz-section>.section-heading h2{font-size:32px;margin:4px 0}.flow-quiz-section>.section-heading>p{font-size:14px}
+  .flow-quiz-card{gap:7px;padding:10px 12px}.flow-quiz-toolbar{min-height:36px}.flow-scenario{min-height:34px;padding:6px 11px;font-size:13px}.flow-progress{font-size:12px}
+  .flow-question{padding:7px 10px}.flow-question h3{font-size:17px}.flow-question p{font-size:13px}.flow-tag{font-size:10px}
+  .flow-board{gap:6px}.flow-board-title{margin-bottom:4px;font-size:13px}.flow-board-title span{font-size:11px}
+  .flow-slots,.flow-slots[data-route="remote"]{grid-auto-rows:minmax(46px,1fr);gap:5px}.flow-slot{padding:5px 7px;gap:6px;border-radius:9px}.flow-slot-number{flex-basis:23px;width:23px;height:23px;font-size:10px}
+  .flow-block{padding:6px 7px;font-size:12px;line-height:1.3}.flow-bank{gap:5px}.flow-bank .flow-block{min-height:38px}
+  .flow-controls .button{min-height:34px;padding:6px 10px;font-size:12px}.flow-feedback{min-height:20px;font-size:12px}.flow-insight{padding:7px 10px;font-size:12px}.flow-sources{font-size:11px;margin:0}
+}
+@media (max-width:1000px){.topbar nav{gap:12px;font-size:12px}}
+@media (min-height:720px) and (max-width:680px){
+  .flow-quiz-section.section-pad{height:auto;min-height:0;width:calc(100% - 24px);padding:20px 0;display:block}
+  .flow-quiz-section>.section-heading{margin:0 0 12px}.flow-quiz-section>.section-heading h2{font-size:27px}.flow-quiz-section>.section-heading>p{font-size:14px}
+  .flow-quiz-card{gap:12px;padding:12px;border-radius:16px}.flow-quiz-toolbar{align-items:flex-start;flex-direction:column;gap:8px}.flow-scenario{font-size:13px}.flow-progress{font-size:12px}
+  .flow-question{grid-template-columns:1fr;gap:6px}.flow-tag{grid-row:auto;justify-self:start}.flow-question h3{font-size:18px}.flow-question p{font-size:14px}
+  .flow-slots,.flow-slots[data-route="remote"]{grid-template-columns:1fr;grid-auto-rows:auto}.flow-slot{min-height:65px}.flow-block{font-size:14px;padding:10px}.flow-bank,.flow-slots[data-route="remote"]+.flow-bank-wrap .flow-bank{grid-template-columns:1fr}
+  .flow-controls{justify-content:stretch}.flow-controls .button{flex:1 1 30%;font-size:13px;padding:8px 6px}.flow-feedback,.flow-insight{font-size:14px}
+}
+@media (max-height:719px){
+  body.flow-quiz-page{height:auto;min-height:100%;overflow-x:hidden;overflow-y:auto;display:block}
+  body.flow-quiz-page #main{height:auto;min-height:calc(100dvh - 64px);overflow:visible}
+  body.flow-quiz-page .topbar{position:sticky;top:0}
+  body.flow-quiz-page .page-switch,body.flow-quiz-page .footer{display:flex}
+  .flow-quiz-section.section-pad{height:auto;min-height:0;padding:14px 0;display:block}
+  .flow-quiz-card{min-height:560px}
+}

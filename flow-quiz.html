@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#211f1b">
+  <meta name="description" content="用拖拉積木挑戰 ARP 流程，分辨同網段傳送與跨網段經過預設閘道的差異。">
+  <title>ARP 流程拼圖｜ARP 小小網路探險隊</title>
+  <link rel="stylesheet" href="styles.css?v=10">
+  <script src="flow-quiz.js" defer></script>
+</head>
+<body class="flow-quiz-page">
+  <a class="skip-link" href="#main">跳到主要內容</a>
+  <header class="topbar">
+    <a class="brand" href="index.html" aria-label="ARP 小小網路探險隊首頁"><span class="brand-mark" aria-hidden="true">⌁</span><span>封包探險隊 <small>NETWORK CLUB</small></span></a>
+    <nav aria-label="主要導覽"><a href="arp.html">ARP 是什麼</a><a href="lab.html">封包實驗室</a><a href="spoof.html">假冒解謎</a><a href="flow-quiz.html" aria-current="page">流程挑戰</a><a href="quiz.html">快問快答</a></nav>
+    <a class="nav-cta" href="quiz.html">下一章 <span aria-hidden="true">↗</span></a>
+  </header>
+  <main id="main">
+    <section class="flow-quiz-section section-wrap section-pad" aria-labelledby="flow-title">
+      <div class="section-heading"><div><div class="eyebrow"><span class="eyebrow-number">04</span> ARP FLOW PUZZLE</div><h2 id="flow-title">把 ARP 流程排出來</h2></div><p>拖拉積木，排出封包正確的旅程。<br>兩種網路情境都試試看。</p></div>
+      <div class="flow-quiz-card">
+        <div class="flow-quiz-toolbar">
+          <div class="flow-scenarios" role="group" aria-label="選擇網路情境">
+            <button class="flow-scenario is-active" type="button" data-route="local" aria-pressed="true">同網段：找小晴</button>
+            <button class="flow-scenario" type="button" data-route="remote" aria-pressed="false">不同網段：找網站</button>
+          </div>
+          <span class="flow-progress" id="flow-progress">情境 1 / 2 · 尚未完成</span>
+        </div>
+        <div class="flow-question" aria-live="polite">
+          <span class="flow-tag" id="flow-tag">LOCAL · 同網段</span>
+          <h3 id="flow-question-title">小安要傳資料給同一個區網裡的小晴。</h3>
+          <p id="flow-question-copy">請把「先查快取、廣播詢問、收到回覆、送出資料」排成正確順序。</p>
+        </div>
+        <div class="flow-board">
+          <div class="flow-board-title"><b>封包旅程</b><span>拖曳或點積木，再點空格；鍵盤可用 Enter / Tab</span></div>
+          <div class="flow-slots" id="flow-slots" aria-label="流程排序空格"></div>
+          <div class="flow-bank-wrap">
+            <div class="flow-board-title"><b>待排列積木</b><span id="flow-bank-count"></span></div>
+            <div class="flow-bank" id="flow-bank" aria-label="待排列的流程積木"></div>
+          </div>
+        </div>
+        <div class="flow-controls">
+          <button class="button button-ghost" id="flow-hint" type="button">給我一個提示</button>
+          <button class="button button-ghost" id="flow-reset" type="button">重新打亂</button>
+          <button class="button button-mint" id="flow-check" type="button">檢查流程</button>
+        </div>
+        <p class="flow-feedback" id="flow-feedback" aria-live="polite">準備好了就開始排！</p>
+        <div class="flow-insight" id="flow-insight"><b>先想想：</b> ARP 要找的是「現在這一段網路的下一站」網卡門牌。</div>
+      </div>
+      <div class="flow-sources"><span>流程依據：</span><a href="https://datatracker.ietf.org/doc/html/rfc826" target="_blank" rel="noreferrer">RFC 826 · ARP</a><a href="https://datatracker.ietf.org/doc/html/rfc1812" target="_blank" rel="noreferrer">RFC 1812 · 路由與下一站</a></div>
+    </section>
+    <nav class="page-switch section-wrap" aria-label="章節切換">
+      <a class="page-switch-link" href="spoof.html"><small>上一頁</small><b>← 假冒解謎</b></a>
+      <span class="page-switch-count">04 / 05</span>
+      <a class="page-switch-link page-switch-next" href="quiz.html"><small>下一頁</small><b>快問快答 →</b></a>
+    </nav>
+  </main>
+  <footer class="footer"><a class="brand" href="index.html"><span class="brand-mark" aria-hidden="true">⌁</span><span>封包探險隊 <small>NETWORK CLUB</small></span></a><span>用好奇心打開網路世界。</span><a href="index.html">回到首頁 ↑</a></footer>
+</body>
+</html>
