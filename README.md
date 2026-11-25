@@ -36,7 +36,7 @@ Render 免費 Web Service 閒置 15 分鐘會休眠，喚醒時第一次 API 呼
 - `index.html`：探險首頁與五個章節入口
 - `arp.html`：ARP、IP 和 MAC 入門
 - `lab.html`：快取命中 / 未命中 / 假冒回覆情境；ARP 欄位透視與快取變化
-- `spoof.html`：ARP spoofing 解說與防護方式
+- `spoof.html` / `spoof.js`：ARP spoofing 學習站，互動比較正常與遭冒名的 ARP 快取，搭配原理、封包路徑、影響、防護與辨識練習
 - `quiz.html`：十題由淺入深的封包判讀挑戰
 - `flow-quiz.html` / `flow-quiz.js`：同網段、跨網段兩種 ARP 拖拉排序挑戰；支援拖放、點選放置與鍵盤操作
 - `styles.css`：暖色課程工作台；桌機與較高手機視窗採單畫面排版

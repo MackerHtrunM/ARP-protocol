@@ -4,34 +4,75 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#211f1b">
-  <meta name="description" content="看看錯誤的 IP/MAC 配對如何讓區域網路中的資料走錯方向。">
-  <title>ARP 欺騙解謎｜ARP 小小網路探險隊</title>
-  <link rel="stylesheet" href="styles.css?v=10">
-  
+  <meta name="description" content="用安全的互動模擬理解 ARP spoofing 如何改寫 ARP 快取、影響封包路徑，以及如何防護。">
+  <title>ARP spoofing 學習站｜封包探險隊</title>
+  <link rel="stylesheet" href="styles.css?v=11">
+  <script src="spoof.js" defer></script>
 </head>
-<body>
+<body class="spoof-learning-page">
   <a class="skip-link" href="#main">跳到主要內容</a>
   <header class="topbar">
-    <a class="brand" href="index.html" aria-label="ARP 小小網路探險隊首頁"><span class="brand-mark" aria-hidden="true">⌁</span><span>封包探險隊 <small>NETWORK CLUB</small></span></a>
-    <nav aria-label="主要導覽"><a href="arp.html">ARP 是什麼</a><a href="lab.html">封包實驗室</a><a href="spoof.html" aria-current="page">假冒解謎</a><a href="flow-quiz.html">流程挑戰</a><a href="quiz.html">快問快答</a></nav>
+    <a class="brand" href="index.html" aria-label="封包探險隊首頁"><span class="brand-mark" aria-hidden="true">⌁</span><span>封包探險隊 <small>NETWORK CLUB</small></span></a>
+    <nav aria-label="主要導覽"><a href="arp.html">ARP 是什麼</a><a href="lab.html">封包實驗室</a><a href="spoof.html" aria-current="page">ARP spoofing</a><a href="flow-quiz.html">流程挑戰</a><a href="quiz.html">快問快答</a></nav>
     <a class="nav-cta" href="flow-quiz.html">下一章 <span aria-hidden="true">↗</span></a>
   </header>
   <main id="main">
-    <section class="section-wrap section-pad" id="spoof">
-      <div class="section-heading"><div><div class="eyebrow"><span class="eyebrow-number">03</span> THE MYSTERY</div><h2>等等，這位同學是誰？</h2></div><p>ARP 本身不會先檢查回覆的人<br>是不是本人，可能有人趁機冒充。</p></div>
-      <div class="mystery-grid">
-        <div class="mystery-visual"><div class="mystery-card"><div class="speech speech-real">「我是 192.168.1.25，<br>我的 MAC 是 BB:25！」<span>小晴</span></div><div class="speech speech-fake">「我也是 192.168.1.25，<br>MAC 是 CC:99 喔！」<span>陌生裝置</span></div><div class="mini-computer">安</div><div class="mini-gate">交換器</div><div class="mystery-arrow arrow-one">→</div><div class="mystery-arrow arrow-two">↗</div><div class="question-mark">?</div></div><div class="mystery-stamp">誰說的<br>才是真的？</div></div>
-        <div class="mystery-copy"><span class="pill pill-orange">ARP SPOOFING · ARP 欺騙</span><h3>有人謊報 IP 與 MAC 的配對</h3><p>ARP 封包的寄件者欄位是裝置自己提供的聲明，ARP 沒有數位簽章替它驗明身分。某些系統可能依收到的 ARP 資訊更新快取；冒充者便謊稱「192.168.1.25 是我，MAC 是 CC:99」，造成<b> ARP 快取污染</b>。各作業系統的檢查方式會有差異。</p><div class="result-box"><div class="result-icon">↳</div><div><b>封包會走去哪裡？</b><span>小安的 IP 目的地仍是小晴，但乙太網路目的 MAC 可能改成 CC:99。冒充者轉送時可能形成中間人路徑，直接丟棄則可能造成斷線。</span></div></div><div class="remember-chip">🧠 精髓：信任了錯誤的「IP → MAC」對照</div></div>
+    <section id="spoof" class="spoof-learning section-wrap" aria-labelledby="spoof-title">
+      <div class="spoof-heading">
+        <div><div class="eyebrow"><span class="eyebrow-number">03</span> SECURITY FIELD GUIDE · 安全任務</div><h1 id="spoof-title">當 IP 說謊，<span>封包會去哪？</span></h1></div>
+        <p>ARP 只負責問路，沒有身分證可以驗證回覆。<br>一起看看錯誤的對照表會造成什麼影響。</p>
       </div>
-      <div class="defense-panel" id="defense"><div class="defense-icon">🛡</div><div><span class="eyebrow">DEFENSE SQUAD</span><h3>網路管理員有防護招式</h3><p><b>Dynamic ARP Inspection（DAI）</b> 可讓交換器把收到的 ARP 配對和可信資料（例如 DHCP Snooping 綁定表或管理員設定的 ARP ACL）比對，不合理的封包就丟棄。它需要正確設定，保護範圍也只涵蓋有啟用檢查的網路。HTTPS 可保護網頁內容，但不能阻止 ARP 快取被改寫。</p><div class="source-citations"><a href="https://datatracker.ietf.org/doc/html/rfc826" target="_blank" rel="noreferrer">RFC 826 · ARP 格式</a><a href="https://datatracker.ietf.org/doc/html/rfc5227" target="_blank" rel="noreferrer">RFC 5227 · ARP Probe</a><a href="https://www.cisco.com/c/en/us/td/docs/switches/lan/catalyst9400/software/release/17-12/configuration_guide/sec/b_1712_sec_9400_cg/configuring_dynamic_arp_inspection.html" target="_blank" rel="noreferrer">Cisco · DAI 防護</a></div></div><div class="shield-mark">OK!</div></div>
+      <div class="spoof-workspace">
+        <section class="spoof-simulator" aria-labelledby="sim-title">
+          <div class="spoof-sim-top"><div><span class="spoof-kicker">SAFE SIMULATION · 安全模擬</span><h2 id="sim-title">看看小安的 ARP 快取</h2></div><span class="spoof-live"><i></i> 僅動畫</span></div>
+          <div class="spoof-network" id="spoof-network" data-mode="normal">
+            <div class="spoof-wire spoof-wire-a"></div><div class="spoof-wire spoof-wire-b"></div>
+            <div class="spoof-device spoof-victim"><span class="spoof-device-icon">安</span><b>小安的電腦</b><small>192.168.1.12</small></div>
+            <div class="spoof-device spoof-switch"><span class="spoof-device-icon">⌁</span><b>交換器</b><small>同一個區域網路</small></div>
+            <div class="spoof-device spoof-friend"><span class="spoof-device-icon">晴</span><b>小晴的電腦</b><small>192.168.1.25</small></div>
+            <div class="spoof-device spoof-intruder"><span class="spoof-device-icon">?</span><b>陌生裝置</b><small>MAC：CC:99</small></div>
+            <div class="spoof-message" id="spoof-message" aria-hidden="true">ARP 回覆</div>
+            <div class="spoof-cache" aria-live="polite"><div><b>小安的 ARP 快取</b><span id="spoof-cache-state">正常紀錄</span></div><p><code>192.168.1.25</code><strong id="spoof-cache-mac">BB:25 · 小晴</strong></p></div>
+          </div>
+          <div class="spoof-mode-switch" role="group" aria-label="切換教學情境">
+            <button class="spoof-mode-button is-active" type="button" data-mode="normal" aria-pressed="true">✓ 正常對照</button>
+            <button class="spoof-mode-button" type="button" data-mode="spoofed" aria-pressed="false">⚠ 收到冒名 ARP</button>
+          </div>
+          <div class="spoof-outcome" aria-live="polite"><span id="spoof-outcome-icon">✓</span><p id="spoof-outcome-text"><b>封包找到小晴</b>小安把資料交給 BB:25，小晴收到訊息。</p></div>
+          <p class="spoof-sim-note">教學模擬：所有 IP 與 MAC 都是虛構的，按鈕只改變網頁畫面，不會送出封包。</p>
+        </section>
+        <section class="spoof-lesson-panel" aria-label="ARP spoofing 學習內容">
+          <div class="spoof-tabs" role="tablist" aria-label="學習主題">
+            <button id="tab-idea" class="spoof-tab is-active" type="button" role="tab" aria-selected="true" aria-controls="panel-idea" tabindex="0">原理</button>
+            <button id="tab-flow" class="spoof-tab" type="button" role="tab" aria-selected="false" aria-controls="panel-flow" tabindex="-1">怎麼發生</button>
+            <button id="tab-defense" class="spoof-tab" type="button" role="tab" aria-selected="false" aria-controls="panel-defense" tabindex="-1">影響與防護</button>
+          </div>
+          <article id="panel-idea" class="spoof-tab-panel" role="tabpanel" aria-labelledby="tab-idea" tabindex="0">
+            <span class="spoof-panel-label">01 · 把它想成有人冒名報門牌</span><h2>ARP spoofing 是什麼？</h2>
+            <p>ARP spoofing（ARP 欺騙／假冒）是有人在<strong>同一個區域網路</strong>謊報 IP 和 MAC 的配對，讓別人的 ARP 快取記錯地址。</p>
+            <div class="spoof-analogy"><span>🏫</span><div><b>教室門牌比喻</b><p>老師問「座號 25 在哪裡？」有人冒充同學回答「在我這裡」。小安把錯誤答案記進通訊錄，之後資料就可能先送到冒充者的網卡。</p></div></div>
+            <div class="spoof-key-fact"><span>記住核心</span><b>ARP 快取記錯：IP → MAC</b></div>
+          </article>
+          <article id="panel-flow" class="spoof-tab-panel" role="tabpanel" aria-labelledby="tab-flow" tabindex="0" hidden>
+            <span class="spoof-panel-label">02 · 對照上方動畫</span><h2>錯誤紀錄怎麼改變路徑？</h2>
+            <ol class="spoof-steps">
+              <li><i>1</i><span><b>冒充者謊報配對</b><small>例如宣稱「192.168.1.25 對應 CC:99」。</small></span></li>
+              <li><i>2</i><span><b>快取可能被更新</b><small>小安之後查詢小晴的 MAC，可能得到錯誤答案。不同系統有不同檢查。</small></span></li>
+              <li><i>3</i><span><b>乙太網路封包先到錯的人</b><small>IP 目的地仍是小晴；但這一段的目的 MAC 變成 CC:99。</small></span></li>
+            </ol>
+            <div class="spoof-layer-note"><b>兩層地址不要混淆</b><span>IP：最終要找的小晴　→　MAC：這一段先交給誰</span></div>
+          </article>
+          <article id="panel-defense" class="spoof-tab-panel" role="tabpanel" aria-labelledby="tab-defense" tabindex="0" hidden>
+            <span class="spoof-panel-label">03 · 影響、線索與防護</span><h2>看到錯誤對照，可能會怎樣？</h2>
+            <div class="spoof-impact-grid"><div><b>🕵️ 可能被轉送</b><p>冒充者若再轉發資料，可能讓流量經過自己，形成中間人路徑。</p></div><div><b>⛔ 也可能被丟掉</b><p>資料如果沒有送到真正目標，連線可能變慢或中斷。</p></div></div>
+            <div class="spoof-defense"><b>管理員可以怎麼防護？</b><p><strong>Dynamic ARP Inspection（DAI）</strong> 可在受管理的交換器上比對可信的 IP/MAC 紀錄，丟棄不符合規則的 ARP 封包。HTTPS 可保護瀏覽器和網站間的內容，但不會阻止 ARP 快取遭改寫。</p></div>
+            <div class="spoof-check"><b>小挑戰：哪個對照值得檢查？</b><div class="spoof-answers" role="group" aria-label="選擇可疑的 ARP 配對"><button type="button" data-answer="safe">192.168.1.25 → BB:25</button><button type="button" data-answer="suspicious">192.168.1.25 突然變成 CC:99</button></div><p id="spoof-answer-feedback" aria-live="polite">選一個答案，看看原因。</p></div>
+          </article>
+          <div class="spoof-panel-footer"><span><i></i> 安全學習模式</span><a href="https://datatracker.ietf.org/doc/html/rfc826" target="_blank" rel="noreferrer">ARP 標準 RFC 826 ↗</a><a href="https://www.cisco.com/c/en/us/td/docs/switches/lan/catalyst9400/software/release/17-12/configuration_guide/sec/b_1712_sec_9400_cg/configuring_dynamic_arp_inspection.html" target="_blank" rel="noreferrer">DAI 防護說明 ↗</a></div>
+        </section>
+      </div>
+      <nav class="spoof-page-nav" aria-label="章節切換"><a href="lab.html">← 封包實驗室</a><span>03 / 05</span><a href="flow-quiz.html">前往流程挑戰 →</a></nav>
     </section>
-    
-    <nav class="page-switch section-wrap" aria-label="章節切換">
-      <a class="page-switch-link" href="lab.html"><small>上一頁</small><b>← 封包實驗室</b></a>
-      <span class="page-switch-count">03 / 05</span>
-      <a class="page-switch-link page-switch-next" href="flow-quiz.html"><small>下一頁</small><b>ARP 流程挑戰 →</b></a>
-    </nav>
   </main>
-  <footer class="footer"><a class="brand" href="index.html"><span class="brand-mark" aria-hidden="true">⌁</span><span>封包探險隊 <small>NETWORK CLUB</small></span></a><span>用好奇心打開網路世界。</span><a href="index.html">回到首頁 ↑</a></footer>
 </body>
 </html>
